@@ -1,10 +1,14 @@
 import useSWR from "swr";
 
 export default function HomePage() {
-  const { data: plants, isLoading } = useSWR("/api/plants");
+  const { data: plants, isLoading, error } = useSWR("/api/plants");
 
   if (isLoading) {
     return <h1>Loading...</h1>;
+  }
+
+  if (error) {
+    return <h1>ERROR</h1>;
   }
 
   if (!plants) {
