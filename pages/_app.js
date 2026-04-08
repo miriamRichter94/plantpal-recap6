@@ -1,4 +1,4 @@
-import { SWRConfig } from "swr";
+import useSWR, { SWRConfig } from "swr";
 import GlobalStyle from "../styles";
 
 const fetcher = async (url) => {
@@ -16,11 +16,25 @@ const fetcher = async (url) => {
 };
 
 export default function App({ Component, pageProps }) {
+  const { data: plants, isLoading, error } = useSWR("/api/plants", fetcher);
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (error) {
+    return <h1>ERROR</h1>;
+  }
+
+  if (!plants) {
+    return;
+  }
+
   return (
     <>
       <GlobalStyle />
       <SWRConfig value={{ fetcher }}>
-        <Component {...pageProps} />
+        <Component {...pageProps} plants={plants} />
       </SWRConfig>
     </>
   );
