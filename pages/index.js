@@ -1,28 +1,10 @@
-import useSWR from "swr";
+import PlantList from "@/Components/PlantList/PlantList";
 
-export default function HomePage() {
-  const { data: plants, isLoading, error } = useSWR("/api/plants");
-
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
-
-  if (error) {
-    return <h1>ERROR</h1>;
-  }
-
-  if (!plants) {
-    return;
-  }
-
+export default function HomePage({plants}) {
   return (
-    <div>
-      <h1>Hello from Next.js</h1>
-      <ul>
-        {plants.map((plant) => (
-          <li key={plant._id}>{plant.name}</li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <h1>Plant Pal</h1>
+      <PlantList plants={plants} />
+    </>
   );
 }
