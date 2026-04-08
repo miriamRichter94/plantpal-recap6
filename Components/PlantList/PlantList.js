@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import PlantListItem from "../PlantItemPreview/PlantItemPreview";
 
-export default function PlantList({ plants }) {
+export default function PlantList({ plants = [] }) {
   return (
-    <PlangGrid>
+    <PlantGrid>
       {plants.length !== 0 ? (
         plants.map((plant) => (
           <GridItem key={plant._id}>
@@ -13,11 +13,11 @@ export default function PlantList({ plants }) {
       ) : (
         <p> No Items Found</p>
       )}
-    </PlangGrid>
+    </PlantGrid>
   );
 }
 
-const PlangGrid = styled.ul`
+const PlantGrid = styled.ul`
   list-style: none;
   display: grid;
   padding: 10px;
