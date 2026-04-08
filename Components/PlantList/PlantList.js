@@ -44,7 +44,9 @@ const StyledButton = styled.button`
   border-radius: 20%;
   border: 1px solid black;
   background: white;
-  opacity: 20%;
+  @media (min-width: 1024px) {
+    opacity: 20%;
+  }
   ${({ $isDelete }) =>
     $isDelete &&
     css`
