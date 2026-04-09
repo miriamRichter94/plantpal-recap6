@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { mutate } from "swr";
 
-export default function PlantFormContent({ closeModal }) {
+export default function PlantForm({ closeModal }) {
   const [descriptionLength, setDescriptionLength] = useState(0);
 
   const [errors, setErrors] = useState({});

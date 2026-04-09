@@ -1,8 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
-import PlantFormContent from "./PlantForm";
+import PlantForm from "./PlantForm";
 
-export default function PlantForm() {
+export default function PlantFormModal() {
   const [showForm, setShowForm] = useState(false);
 
   return (
@@ -12,7 +12,7 @@ export default function PlantForm() {
       {showForm && (
         <Overlay onCancel={() => setShowForm(false)}>
           <Modal onCancel={(e) => e.stopPropagation()}>
-            <PlantFormContent closeModal={() => setShowForm(false)} />
+            <PlantForm closeModal={() => setShowForm(false)} />
           </Modal>
         </Overlay>
       )}
