@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import PlantListItem from "../PlantItemPreview/PlantItemPreview";
+import Link from "next/link";
 
 export default function PlantList({ plants = [] }) {
   return (
@@ -7,7 +8,9 @@ export default function PlantList({ plants = [] }) {
       {plants.length !== 0 ? (
         plants.map((plant) => (
           <GridItem key={plant._id}>
-            <PlantListItem plant={plant} />
+            <Link href={`/plant-details/${plant._id}`}>
+              <PlantListItem plant={plant} />
+            </Link>
           </GridItem>
         ))
       ) : (
