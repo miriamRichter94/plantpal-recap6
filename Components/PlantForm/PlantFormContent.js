@@ -16,23 +16,6 @@ export default function PlantFormContent({ closeModal }) {
   const [imageFile, setImageFile] = useState(null);
   const [preview, setPreview] = useState(null);
 
-  {
-    {/*for future implementation of Uploading Pictures*/}
-    /* 
-    function handleImageChange(event) {
-    const file = event.target.files[0];
-    if (file) {
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => setPreview(reader.result);
-      reader.readAsDataURL(file);
-    } else {
-      setImageFile(null);
-      setPreview(null);
-    }
-  }*/
-
-  }
   function handleChange(event) {
     const { name, value, type, checked } = event.target;
 
@@ -115,18 +98,8 @@ export default function PlantFormContent({ closeModal }) {
         id="imageUrl"
         placeholder="https://paxels.com/image.jpg"
         value={formData.imageUrl || ""}
-        onChange={(event) => setFormData({ ...formData, imageUrl: event.target.value })}
+        onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
       />
-
-      {/* a feature that may be implemented and was specified in advance */}
-      {/* Image Upload 
-      <label htmlFor="image">Plant Image</label>
-      <input
-        type="file"
-        id="image"
-        accept="image/*"
-        onChange={(e) => handleImageChange(e)}
-      />*/}
 
       {preview && <ImagePreview src={preview} alt="Preview" />}
       {/* Name */}

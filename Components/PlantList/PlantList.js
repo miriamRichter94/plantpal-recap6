@@ -11,7 +11,7 @@ export default function PlantList({ plants = [] }) {
           </GridItem>
         ))
       ) : (
-        <p> No Items Found</p>
+        <p> No plants found for this filter</p>
       )}
     </PlantGrid>
   );
