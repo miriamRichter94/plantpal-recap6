@@ -8,10 +8,10 @@ export default async function handler(request, response) {
 
   if (request.method === "GET") {
     try {
-      const plants = await Plant.findById(id);
+      const plant = await Plant.findById(id);
 
-      if (!plants) return response.status(400).json({ status: "bad request" });
-      return response.status(200).json(plants);
+      if (!plant) return response.status(400).json({ status: "bad request" });
+      return response.status(200).json(plant);
     } catch (error) {
       return response.status(400).json({ status: "bad request" });
     }
