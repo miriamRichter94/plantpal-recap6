@@ -57,12 +57,14 @@ export default function PlantForm({ onCancel }) {
       <h2>Add a New Plant</h2>
 
       {/* Image URL */}
-      <label htmlFor="imageUrl">Plant Image URL</label>
+      <label htmlFor="imageUrl">
+        Plant Image URL (only from https://www.pexels.com)
+      </label>
       <input
         type="text"
         id="imageUrl"
         name="imageUrl"
-        placeholder="https://..."
+        placeholder="https://www.pexels.com"
       />
 
       {/* Name */}
