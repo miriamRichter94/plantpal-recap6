@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 import PlantListItem from "../PlantItemPreview/PlantItemPreview";
+import Link from "next/link";
 
 export default function PlantList({ plants = [], handleDeletePlant }) {
   return (
@@ -13,7 +14,9 @@ export default function PlantList({ plants = [], handleDeletePlant }) {
             >
               ❌
             </StyledButton>
-            <PlantListItem plant={plant} />
+            <Link href={`/plant-details/${plant._id}`}>
+              <PlantListItem plant={plant} />
+            </Link>
           </GridItem>
         ))
       ) : (

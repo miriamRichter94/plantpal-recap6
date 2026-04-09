@@ -4,8 +4,6 @@ import Plant from "@/db/models/Plant";
 export default async function handler(request, response) {
   await dbConnect();
 
-  console.log(request.method);
-
   if (request.method === "GET") {
     const plants = await Plant.find();
 

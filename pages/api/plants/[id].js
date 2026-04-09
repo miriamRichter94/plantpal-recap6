@@ -12,6 +12,13 @@ export default async function handler(request, response) {
       response.status(200).json({ message: "Sucess!" });
       return;
     }
+
+    if (request.method === "GET") {
+      const plant = await Plant.findById(id);
+
+      if (!plant) return response.status(400).json({ status: "bad request" });
+      return response.status(200).json(plant);
+    }
   } catch (error) {
     response.status(500).json({ messgae: "Internal Server Error." });
     return;
