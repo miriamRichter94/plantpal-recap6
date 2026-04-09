@@ -9,14 +9,17 @@ export default function PlantForm({ onCancel }) {
 
   async function handleSubmit(event) {
     event.preventDefault();
+
     const form = event.target;
+
+    setSubmitError(null);
+
     const formDataObj = new FormData(form);
     const fertiliserSeason = formDataObj.getAll("fertiliserSeason");
 
     const data = Object.fromEntries(formDataObj);
     data.fertiliserSeason = fertiliserSeason;
 
-    // Validation
     const newErrors = {};
     if (!data.name?.trim()) newErrors.name = "Name is required";
     if (!data.botanicalName?.trim())
@@ -35,17 +38,19 @@ export default function PlantForm({ onCancel }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
+
       if (!res.ok) throw new Error("Failed to add plant");
 
-      const newPlant = await res.json();
-      mutate("/api/plants", (plants = []) => [newPlant, ...plants], false);
+      await res.json();
+      await mutate("/api/plants");
 
       setErrors({});
       setDescriptionLength(0);
       form.reset();
-      closeModal();
+      onCancel();
     } catch (error) {
       console.error(error);
+      setSubmitError("Failed to save plant. Please try again.");
     }
   }
 
