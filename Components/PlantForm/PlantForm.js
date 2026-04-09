@@ -4,56 +4,45 @@ import { mutate } from "swr";
 
 export default function PlantForm({ closeModal }) {
   const [descriptionLength, setDescriptionLength] = useState(0);
-
   const [errors, setErrors] = useState({});
-  const [imageFile, setImageFile] = useState(null);
-  const [preview, setPreview] = useState(null);
-  const remaining = 225 - formData.description.length;
+  const remaining = 225 - descriptionLength;
 
   async function handleSubmit(event) {
     event.preventDefault();
+    const form = event.target;
+    const formDataObj = new FormData(form);
+    const fertiliserSeason = formDataObj.getAll("fertiliserSeason");
 
+    const data = Object.fromEntries(formDataObj);
+    data.fertiliserSeason = fertiliserSeason;
+
+    // Validation
     const newErrors = {};
-    if (!formData.name.trim()) newErrors.name = "Name is required";
-    if (!formData.botanicalName.trim())
+    if (!data.name?.trim()) newErrors.name = "Name is required";
+    if (!data.botanicalName?.trim())
       newErrors.botanicalName = "Botanical Name is required";
-    if (!formData.lightNeed) newErrors.lightNeed = "Light Need is required";
-    if (!formData.waterNeed) newErrors.waterNeed = "Water Need is required";
+    if (!data.lightNeed) newErrors.lightNeed = "Light Need is required";
+    if (!data.waterNeed) newErrors.waterNeed = "Water Need is required";
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
 
-    const payload = { ...formData };
-    if (imageFile) {
-      payload.imageUrl = preview;
-    }
-
     try {
       const res = await fetch("/api/plants", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(data),
       });
-
       if (!res.ok) throw new Error("Failed to add plant");
 
       const newPlant = await res.json();
-
       mutate("/api/plants", (plants = []) => [newPlant, ...plants], false);
 
-      setFormData({
-        name: "",
-        botanicalName: "",
-        description: "",
-        lightNeed: "",
-        waterNeed: "",
-        fertiliserSeason: [],
-      });
-      setImageFile(null);
-      setPreview(null);
       setErrors({});
+      setDescriptionLength(0);
+      form.reset();
       closeModal();
     } catch (error) {
       console.error(error);
@@ -62,7 +51,9 @@ export default function PlantForm({ closeModal }) {
 
   return (
     <FormContainer onSubmit={handleSubmit}>
-      <CloseButton onClick={closeModal}>✕</CloseButton>
+      <CloseButton type="button" onClick={closeModal}>
+        ✕
+      </CloseButton>
       <h2>Add a New Plant</h2>
 
       {/* Image URL */}
@@ -70,14 +61,10 @@ export default function PlantForm({ closeModal }) {
       <input
         type="text"
         id="imageUrl"
-        placeholder="https://paxels.com/image.jpg"
-        value={formData.imageUrl || ""}
-        onChange={(event) =>
-          setFormData({ ...formData, imageUrl: event.target.value })
-        }
+        name="imageUrl"
+        placeholder="https://..."
       />
 
-      {preview && <ImagePreview src={preview} alt="Preview" />}
       {/* Name */}
       <label htmlFor="name">Plant Name *</label>
       <input id="name" name="name" />
@@ -140,6 +127,7 @@ export default function PlantForm({ closeModal }) {
   );
 }
 
+// --- Styled Components ---
 const FormContainer = styled.form`
   display: flex;
   flex-direction: column;

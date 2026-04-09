@@ -7,11 +7,11 @@ export default function PlantFormModal() {
 
   return (
     <>
-      <OpenButton onCancel={() => setShowForm(true)}>Create Plant</OpenButton>
+      <OpenButton onClick={() => setShowForm(true)}>Create Plant</OpenButton>
 
       {showForm && (
-        <Overlay onCancel={() => setShowForm(false)}>
-          <Modal onCancel={(e) => e.stopPropagation()}>
+        <Overlay onClick={() => setShowForm(false)}>
+          <Modal onClick={(e) => e.stopPropagation()}>
             <PlantForm closeModal={() => setShowForm(false)} />
           </Modal>
         </Overlay>
