@@ -1,16 +1,21 @@
 import { useRouter } from "next/router";
 import PlantDetails from "@/Components/PlantDetails/PlantDetails";
+import useSWR from "swr";
 
-export default function DetailsPage({ plants, isLoading, error }) {
-  if (isLoading) return <p>is Loading</p>;
-  if (error) return <p>error</p>;
-
+export default function DetailsPage() {
   const router = useRouter();
   const { id } = router.query;
 
-  const plant = plants.find((plant) => {
-    if (id === plant._id) return plant;
-  });
+  console.log("(`/api/plants/${id}`", `/api/plants/${id}`);
+
+  const {
+    data: plant,
+    isLoading,
+    error,
+  } = useSWR(id ? `/api/plants/${id}` : null);
+
+  if (isLoading || !plant) return <h1>Loading...</h1>;
+  if (error) return <h1>ERROR</h1>;
 
   return <PlantDetails plant={plant} />;
 }

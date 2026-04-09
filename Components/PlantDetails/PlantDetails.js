@@ -1,21 +1,28 @@
 import styled from "styled-components";
 import Link from "next/link";
-
+import ScoreDisplay from "../ScoreDisplay/ScoreDisplay";
 import Image from "next/image";
 
+const numberWaterNeed = {
+  Low: 1,
+  Medium: 2,
+  High: 3,
+};
+
+const numberLightNeed = {
+  "Full Shade": 1,
+  "Partial Shade": 2,
+  "Full Sun": 3,
+};
+
+const fertiliserSeasonIcons = {
+  Spring: "🌸",
+  Summer: "☀️",
+  Autumn: "🍂",
+  Winter: "❄️",
+};
+
 export default function PlantDetails({ plant }) {
-  const numberWaterNeed = {
-    Low: 1,
-    Medium: 2,
-    High: 3,
-  };
-
-  const numberLightNeed = {
-    "Full Shade": 1,
-    "Partial Shade": 2,
-    "Full Sun": 3,
-  };
-
   return (
     <PageContainer>
       <StyledLink href="/">Back</StyledLink>
@@ -24,50 +31,28 @@ export default function PlantDetails({ plant }) {
         <LeftContainer>
           <BotanicalName>{plant.botanicalName}</BotanicalName>
           <PlantInfoTitle>Water Needs:</PlantInfoTitle>
-          <NeedsContainer>
-            {[...Array(numberWaterNeed[plant.waterNeed])].map((_, index) => (
-              <NeedsWaterCircle key={index} />
-            ))}
-            {[...Array(3 - numberWaterNeed[plant.waterNeed])].map(
-              (_, index) => (
-                <NeedsWaterCircleInactive key={index} />
-              )
-            )}
-          </NeedsContainer>
+          <ScoreDisplay
+            value={numberWaterNeed[plant.waterNeed]}
+            max={3}
+            ActiveIcon={NeedsWaterCircle}
+            InactiveIcon={NeedsWaterCircleInactive}
+          />
+
           <PlantInfoTitle>Light Needs:</PlantInfoTitle>
-          <NeedsContainer>
-            {[...Array(numberLightNeed[plant.lightNeed])].map((_, index) => (
-              <NeedsLightCircle key={index} />
-            ))}
-            {[...Array(3 - numberLightNeed[plant.lightNeed])].map(
-              (_, index) => (
-                <NeedsLightCircleInactive key={index} />
-              )
-            )}
-          </NeedsContainer>
+          <ScoreDisplay
+            value={numberLightNeed[plant.lightNeed]}
+            max={3}
+            ActiveIcon={NeedsLightCircle}
+            InactiveIcon={NeedsLightCircleInactive}
+          />
 
           <PlantInfoTitle>Fertiliser Season:</PlantInfoTitle>
           <NeedsContainer>
-            {plant.fertiliserSeason.map((item, index) => {
-              switch (item) {
-                case "Spring":
-                  return (
-                    <FertiliserSeasonIcon key={index}>🌸</FertiliserSeasonIcon>
-                  );
-                case "Summer":
-                  return (
-                    <FertiliserSeasonIcon key={index}>☀️</FertiliserSeasonIcon>
-                  );
-                case "Autumn":
-                  return (
-                    <FertiliserSeasonIcon key={index}>🍂</FertiliserSeasonIcon>
-                  );
-                case "Winter":
-                  return (
-                    <FertiliserSeasonIcon key={index}>❄️</FertiliserSeasonIcon>
-                  );
-              }
-            })}
+            {plant.fertiliserSeason.map((item, index) => (
+              <FertiliserSeasonIcon key={index}>
+                {fertiliserSeasonIcons[item]}
+              </FertiliserSeasonIcon>
+            ))}
           </NeedsContainer>
         </LeftContainer>
 
@@ -80,6 +65,7 @@ export default function PlantDetails({ plant }) {
           />
         </RightContainer>
       </PlantInfoContainer>
+
       <PlantDescriptionContainer>
         <PlantInfoTitle>Plant Description:</PlantInfoTitle>
         <PlantDescription>{plant.description}</PlantDescription>
