@@ -1,6 +1,6 @@
 import PlantList from "@/Components/PlantList/PlantList";
 
-export default function HomePage({plants}) {
+export default function HomePage({ plants }) {
   return (
     <>
       <h1>Plant Pal</h1>
