@@ -2,6 +2,8 @@ import styled from "styled-components";
 import Link from "next/link";
 import ScoreDisplay from "../ScoreDisplay/ScoreDisplay";
 import Image from "next/image";
+import { deletePlant } from "@/services/plantService";
+import { useRouter } from "next/router";
 
 const numberWaterNeed = {
   Low: 1,
@@ -22,7 +24,8 @@ const fertiliserSeasonIcons = {
   Winter: "❄️",
 };
 
-export default function PlantDetails({ plant, onDeletePlant }) {
+export default function PlantDetails({ plant }) {
+  const router = useRouter();
   return (
     <PageContainer>
       <StyledLink href="/">Back</StyledLink>
@@ -70,7 +73,14 @@ export default function PlantDetails({ plant, onDeletePlant }) {
         <PlantInfoTitle>Plant Description:</PlantInfoTitle>
         <PlantDescription>{plant.description}</PlantDescription>
       </PlantDescriptionContainer>
-      <button onClick={() => onDeletePlant(plant._id)}>❌Delete Plant</button>
+      <button
+        onClick={async () => {
+          await deletePlant(plant._id);
+          router.push("/");
+        }}
+      >
+        ❌Delete Plant
+      </button>
     </PageContainer>
   );
 }

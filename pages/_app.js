@@ -1,7 +1,6 @@
-import { mutate, SWRConfig } from "swr";
+import { SWRConfig } from "swr";
 import GlobalStyle from "../styles";
-import { useRouter } from "next/router";
-import toast from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
 const fetcher = async (url) => {
   const res = await fetch(url);
@@ -18,25 +17,12 @@ const fetcher = async (url) => {
 };
 
 export default function App({ Component, pageProps }) {
-  const router = useRouter();
-
-  async function handleDeletePlant(id) {
-    const response = await fetch(`/api/plants/${id}`, {
-      method: "DELETE",
-    });
-
-    if (response.ok) {
-      toast.success("Plant sucessfully deleted!");
-      await mutate("/api/plants");
-      router.push("/");
-    }
-  }
-
   return (
     <>
       <GlobalStyle />
+      <Toaster position="top-center" />
       <SWRConfig value={{ fetcher }}>
-        <Component {...pageProps} handleDeletePlant={handleDeletePlant} />
+        <Component {...pageProps} />
       </SWRConfig>
     </>
   );

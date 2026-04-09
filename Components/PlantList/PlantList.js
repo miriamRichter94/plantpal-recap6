@@ -1,17 +1,15 @@
 import styled, { css } from "styled-components";
 import PlantListItem from "../PlantItemPreview/PlantItemPreview";
 import Link from "next/link";
+import { deletePlant } from "@/services/plantService";
 
-export default function PlantList({ plants = [], handleDeletePlant }) {
+export default function PlantList({ plants = [] }) {
   return (
     <PlantGrid>
       {plants.length !== 0 ? (
         plants.map((plant) => (
           <GridItem key={plant._id}>
-            <StyledButton
-              onClick={() => handleDeletePlant(plant._id)}
-              $isDelete
-            >
+            <StyledButton onClick={() => deletePlant(plant._id)} $isDelete>
               ❌
             </StyledButton>
             <Link href={`/plant-details/${plant._id}`}>
