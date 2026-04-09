@@ -6,8 +6,6 @@ export default function DetailsPage() {
   const router = useRouter();
   const { id } = router.query;
 
-  console.log("(`/api/plants/${id}`", `/api/plants/${id}`);
-
   const {
     data: plant,
     isLoading,
