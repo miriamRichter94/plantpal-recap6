@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { mutate } from "swr";
 
-export default function PlantForm({ closeModal }) {
+export default function PlantForm({ onCancel }) {
   const [descriptionLength, setDescriptionLength] = useState(0);
   const [errors, setErrors] = useState({});
   const remaining = 225 - descriptionLength;
@@ -51,7 +51,7 @@ export default function PlantForm({ closeModal }) {
 
   return (
     <FormContainer onSubmit={handleSubmit}>
-      <CloseButton type="button" onClick={closeModal}>
+      <CloseButton type="button" onClick={onCancel}>
         ✕
       </CloseButton>
       <h2>Add a New Plant</h2>

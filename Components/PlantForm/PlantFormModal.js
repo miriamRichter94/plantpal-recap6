@@ -12,7 +12,7 @@ export default function PlantFormModal() {
       {showForm && (
         <Overlay onClick={() => setShowForm(false)}>
           <Modal onClick={(e) => e.stopPropagation()}>
-            <PlantForm closeModal={() => setShowForm(false)} />
+            <PlantForm onCancel={() => setShowForm(false)} />
           </Modal>
         </Overlay>
       )}
