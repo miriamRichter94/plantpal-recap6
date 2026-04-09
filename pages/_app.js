@@ -20,7 +20,14 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <GlobalStyle />
-      <Toaster position="top-center" />
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          style: {
+            zIndex: 9999,
+          },
+        }}
+      />
       <SWRConfig value={{ fetcher }}>
         <Component {...pageProps} />
       </SWRConfig>
