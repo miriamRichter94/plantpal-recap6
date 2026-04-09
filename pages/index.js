@@ -1,8 +1,9 @@
+import PlantForm from "@/Components/PlantForm/PlantFormModal";
 import PlantList from "@/Components/PlantList/PlantList";
 import useSWR from "swr";
 import { Toaster } from "react-hot-toast";
 
-export default function HomePage({handleDeletePlant}) {
+export default function HomePage({ handleDeletePlant }) {
   const { data: plants, isLoading, error, mutate } = useSWR("/api/plants");
 
   if (isLoading || !plants) return <h1>Loading...</h1>;
@@ -11,6 +12,7 @@ export default function HomePage({handleDeletePlant}) {
   return (
     <>
       <h1>Plant Pal</h1>
+      <PlantForm />
       <Toaster position="top-center" />
       <PlantList plants={plants} handleDeletePlant={handleDeletePlant} />
     </>
