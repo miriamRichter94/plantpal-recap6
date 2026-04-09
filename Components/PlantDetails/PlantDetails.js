@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Link from "next/link";
 
 import Image from "next/image";
 
@@ -17,6 +18,7 @@ export default function PlantDetails({ plant }) {
 
   return (
     <PageContainer>
+      <StyledLink href="/">Back</StyledLink>
       <PlantName>{plant.name}</PlantName>
       <PlantInfoContainer>
         <LeftContainer>
@@ -85,6 +87,20 @@ export default function PlantDetails({ plant }) {
     </PageContainer>
   );
 }
+
+const StyledLink = styled(Link)`
+  position: absolute;
+  left: 20px;
+  top: 20px;
+
+  background-color: rgb(202, 202, 202);
+  border: 1px solid black;
+  text-decoration: none;
+  color: black;
+  font-size: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+`;
 
 const PageContainer = styled.div`
   display: flex;
