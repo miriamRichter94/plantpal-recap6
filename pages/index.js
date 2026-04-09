@@ -1,4 +1,4 @@
-import PlantForm from "@/Components/PlantForm/PlantForm";
+import PlantForm from "@/Components/PlantForm/PlantFormModal";
 import PlantList from "@/Components/PlantList/PlantList";
 
 export default function HomePage({ plants }) {
