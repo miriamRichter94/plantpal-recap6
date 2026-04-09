@@ -16,7 +16,12 @@ const fetcher = async (url) => {
 };
 
 export default function App({ Component, pageProps }) {
-  const { data: plants, isLoading, error } = useSWR("/api/plants", fetcher);
+  const {
+    data: plants,
+    isLoading,
+    error,
+    mutate,
+  } = useSWR("/api/plants", fetcher);
 
   if (isLoading) {
     return <h1>Loading...</h1>;
@@ -34,7 +39,7 @@ export default function App({ Component, pageProps }) {
     <>
       <GlobalStyle />
       <SWRConfig value={{ fetcher }}>
-        <Component {...pageProps} plants={plants} />
+        <Component {...pageProps} plants={plants} mutate={mutate} />
       </SWRConfig>
     </>
   );
