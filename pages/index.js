@@ -1,4 +1,5 @@
 import Filter from "@/Components/Filter/Filter";
+import PlantForm from "@/Components/PlantForm/PlantFormModal";
 import PlantList from "@/Components/PlantList/PlantList";
 import { useState } from "react";
 import useSWR from "swr";
@@ -17,11 +18,14 @@ export default function HomePage() {
   return (
     <>
       <h1>Plant Pal</h1>
+
       <Filter
         selectedFilter={selectedFilter}
         setSelectedFilter={setSelectedFilter}
       />
       <PlantList plants={filteredPlants} />
+      <PlantForm />
+
     </>
   );
 }
