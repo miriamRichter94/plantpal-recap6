@@ -1,3 +1,4 @@
+import PlantForm from "@/Components/PlantForm/PlantFormModal";
 import PlantList from "@/Components/PlantList/PlantList";
 import useSWR from "swr";
 
@@ -10,6 +11,7 @@ export default function HomePage() {
   return (
     <>
       <h1>Plant Pal</h1>
+      <PlantForm />
       <PlantList plants={plants} />
     </>
   );
