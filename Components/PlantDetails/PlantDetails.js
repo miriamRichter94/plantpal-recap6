@@ -22,7 +22,7 @@ const fertiliserSeasonIcons = {
   Winter: "❄️",
 };
 
-export default function PlantDetails({ plant }) {
+export default function PlantDetails({ plant, onDeletePlant }) {
   return (
     <PageContainer>
       <StyledLink href="/">Back</StyledLink>
@@ -70,6 +70,7 @@ export default function PlantDetails({ plant }) {
         <PlantInfoTitle>Plant Description:</PlantInfoTitle>
         <PlantDescription>{plant.description}</PlantDescription>
       </PlantDescriptionContainer>
+      <button onClick={() => onDeletePlant(plant._id)}>❌Delete Plant</button>
     </PageContainer>
   );
 }
