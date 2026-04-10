@@ -10,7 +10,9 @@ export default function DetailsPage() {
     data: plant,
     isLoading,
     error,
-  } = useSWR(id ? `/api/plants/${id}` : null);
+  } = useSWR(id ? `/api/plants/${id}` : null, {
+    shouldRetryOnError: false,
+  });
 
   if (isLoading || !plant) return <h1>Loading...</h1>;
   if (error) return <h1>ERROR</h1>;
