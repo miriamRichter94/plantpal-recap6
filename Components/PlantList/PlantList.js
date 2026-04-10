@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 import PlantListItem from "../PlantItemPreview/PlantItemPreview";
 import Link from "next/link";
-import { deletePlant } from "@/services/plantService";
+import DeleteConfirmationModal from "../DeleteConfirmation/DeleteConfirmationModal";
 
 export default function PlantList({ plants = [] }) {
   return (
@@ -9,9 +9,11 @@ export default function PlantList({ plants = [] }) {
       {plants.length !== 0 ? (
         plants.map((plant) => (
           <GridItem key={plant._id}>
-            <StyledButton onClick={() => deletePlant(plant._id)} $isDelete>
-              ❌
-            </StyledButton>
+            <ActionDiv $isDelete>
+              <DeleteConfirmationModal plantId={plant._id}>
+                ❌
+              </DeleteConfirmationModal>
+            </ActionDiv>
             <Link href={`/plant-details/${plant._id}`}>
               <PlantListItem plant={plant} />
             </Link>
@@ -36,7 +38,7 @@ const PlantGrid = styled.ul`
   column-gap: 16px;
 `;
 
-const StyledButton = styled.button`
+const ActionDiv = styled.div`
   position: absolute;
   width: 30px;
   height: 30px;
@@ -63,7 +65,7 @@ const GridItem = styled.li`
   justify-items: center;
   padding: 10px;
 
-  &:hover ${StyledButton} {
+  &:hover ${ActionDiv} {
     opacity: 100%;
   }
 `;

@@ -4,6 +4,7 @@ import ScoreDisplay from "../ScoreDisplay/ScoreDisplay";
 import Image from "next/image";
 import { deletePlant } from "@/services/plantService";
 import { useRouter } from "next/router";
+import DeleteConfirmationModal from "../DeleteConfirmation/DeleteConfirmationModal";
 
 const numberWaterNeed = {
   Low: 1,
@@ -73,17 +74,21 @@ export default function PlantDetails({ plant }) {
         <PlantInfoTitle>Plant Description:</PlantInfoTitle>
         <PlantDescription>{plant.description}</PlantDescription>
       </PlantDescriptionContainer>
-      <button
-        onClick={async () => {
-          await deletePlant(plant._id);
-          router.push("/");
-        }}
-      >
-        ❌Delete Plant
-      </button>
+      <DeleteAction>
+        <DeleteConfirmationModal plantId={plant._id}>
+          ❌Delete Plant
+        </DeleteConfirmationModal>
+      </DeleteAction>
     </PageContainer>
   );
 }
+
+const DeleteAction = styled.div`
+  width: 240px;
+  height: 32px;
+  margin-left: 3%;
+  border: 2px solid black;
+`;
 
 const StyledLink = styled(Link)`
   position: absolute;
