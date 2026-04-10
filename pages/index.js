@@ -18,14 +18,12 @@ export default function HomePage() {
   return (
     <>
       <h1>Plant Pal</h1>
-
+      <PlantForm />
       <Filter
         selectedFilter={selectedFilter}
         setSelectedFilter={setSelectedFilter}
       />
       <PlantList plants={filteredPlants} />
-      <PlantForm />
-
     </>
   );
 }

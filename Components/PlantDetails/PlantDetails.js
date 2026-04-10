@@ -2,6 +2,9 @@ import styled from "styled-components";
 import Link from "next/link";
 import ScoreDisplay from "../ScoreDisplay/ScoreDisplay";
 import Image from "next/image";
+import { deletePlant } from "@/services/plantService";
+import { useRouter } from "next/router";
+import DeleteConfirmationModal from "../DeleteConfirmation/DeleteConfirmationModal";
 
 const numberWaterNeed = {
   Low: 1,
@@ -23,6 +26,7 @@ const fertiliserSeasonIcons = {
 };
 
 export default function PlantDetails({ plant }) {
+  const router = useRouter();
   return (
     <PageContainer>
       <StyledLink href="/">Back</StyledLink>
@@ -70,9 +74,21 @@ export default function PlantDetails({ plant }) {
         <PlantInfoTitle>Plant Description:</PlantInfoTitle>
         <PlantDescription>{plant.description}</PlantDescription>
       </PlantDescriptionContainer>
+      <DeleteAction>
+        <DeleteConfirmationModal plantId={plant._id}>
+          ❌Delete Plant
+        </DeleteConfirmationModal>
+      </DeleteAction>
     </PageContainer>
   );
 }
+
+const DeleteAction = styled.div`
+  width: 240px;
+  height: 32px;
+  margin-left: 3%;
+  border: 2px solid black;
+`;
 
 const StyledLink = styled(Link)`
   position: absolute;
