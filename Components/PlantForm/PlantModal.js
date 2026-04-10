@@ -2,17 +2,16 @@ import { useState } from "react";
 import styled from "styled-components";
 import PlantForm from "./PlantForm";
 
-export default function PlantFormModal() {
+export default function PlantModal({ plant, buttonLabel = "Create Plant" }) {
   const [showForm, setShowForm] = useState(false);
 
   return (
     <>
-      <OpenButton onClick={() => setShowForm(true)}>Create Plant</OpenButton>
-
+      <OpenButton onClick={() => setShowForm(true)}>{buttonLabel}</OpenButton>
       {showForm && (
         <Overlay onClick={() => setShowForm(false)}>
           <Modal onClick={(e) => e.stopPropagation()}>
-            <PlantForm onCancel={() => setShowForm(false)} />
+            <PlantForm plant={plant} onCancel={() => setShowForm(false)} />
           </Modal>
         </Overlay>
       )}
@@ -39,10 +38,12 @@ const Overlay = styled.div`
 const Modal = styled.div`
   background: white;
   padding: 20px;
-  width: 400px;
+  width: 90%;
+  max-width: 400px;
   max-height: 90vh;
   overflow-y: auto;
   border-radius: 8px;
   position: relative;
+  text-align: left;
   z-index: 10000;
 `;

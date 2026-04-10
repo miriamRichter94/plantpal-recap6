@@ -2,11 +2,12 @@ import { useState } from "react";
 import styled from "styled-components";
 import { mutate } from "swr";
 
-export default function PlantForm({ onCancel }) {
+export default function PlantForm({ onCancel, plant }) {
   const [descriptionLength, setDescriptionLength] = useState(0);
   const [errors, setErrors] = useState({});
   const remaining = 225 - descriptionLength;
   const [submitError, setSubmitError] = useState(null);
+  const isEditMode = Boolean(plant);
   async function handleSubmit(event) {
     event.preventDefault();
 
@@ -33,11 +34,14 @@ export default function PlantForm({ onCancel }) {
     }
 
     try {
-      const res = await fetch("/api/plants", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      const res = await fetch(
+        plant ? `/api/plants/${plant._id}` : "/api/plants",
+        {
+          method: plant ? "PUT" : "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        }
+      );
 
       if (!res.ok) throw new Error("Failed to add plant");
 
@@ -59,7 +63,7 @@ export default function PlantForm({ onCancel }) {
       <CloseButton type="button" onClick={onCancel}>
         ✕
       </CloseButton>
-      <h2>Add a New Plant</h2>
+      <h2>{isEditMode ? "Edit Plant" : "Add a New Plant"}</h2>
 
       {/* Image URL */}
       <label htmlFor="imageUrl">
@@ -70,16 +74,21 @@ export default function PlantForm({ onCancel }) {
         id="imageUrl"
         name="imageUrl"
         placeholder="https://www.pexels.com"
+        defaultValue={plant?.imageUrl}
       />
 
       {/* Name */}
       <label htmlFor="name">Plant Name *</label>
-      <input id="name" name="name" />
+      <input id="name" name="name" defaultValue={plant?.name} />
       {errors.name && <ErrorText>{errors.name}</ErrorText>}
 
       {/* Botanical Name */}
       <label htmlFor="botanicalName">Botanical Name *</label>
-      <input id="botanicalName" name="botanicalName" />
+      <input
+        id="botanicalName"
+        name="botanicalName"
+        defaultValue={plant?.botanicalName}
+      />
       {errors.botanicalName && <ErrorText>{errors.botanicalName}</ErrorText>}
 
       {/* Description */}
@@ -88,6 +97,7 @@ export default function PlantForm({ onCancel }) {
         id="description"
         name="description"
         maxLength={225}
+        defaultValue={plant?.description}
         onChange={(e) => setDescriptionLength(e.target.value.length)}
       />
       <CharacterCount warning={remaining < 20}>
@@ -99,7 +109,12 @@ export default function PlantForm({ onCancel }) {
         <legend>Light Needs *</legend>
         {["Full Sun", "Partial Shade", "Full Shade"].map((option) => (
           <label key={option}>
-            <input type="radio" name="lightNeed" value={option} />
+            <input
+              type="radio"
+              name="lightNeed"
+              value={option}
+              defaultChecked={plant?.lightNeed === option}
+            />
             {option}
           </label>
         ))}
@@ -111,7 +126,12 @@ export default function PlantForm({ onCancel }) {
         <legend>Water Needs *</legend>
         {["Low", "Medium", "High"].map((option) => (
           <label key={option}>
-            <input type="radio" name="waterNeed" value={option} />
+            <input
+              type="radio"
+              name="waterNeed"
+              value={option}
+              defaultChecked={plant?.waterNeed === option}
+            />
             {option}
           </label>
         ))}
@@ -123,13 +143,20 @@ export default function PlantForm({ onCancel }) {
         <legend>Fertiliser Season</legend>
         {["Spring", "Summer", "Autumn", "Winter"].map((season) => (
           <label key={season}>
-            <input type="checkbox" name="fertiliserSeason" value={season} />
+            <input
+              type="checkbox"
+              name="fertiliserSeason"
+              value={season}
+              defaultChecked={plant?.fertiliserSeason?.includes(season)}
+            />
             {season}
           </label>
         ))}
       </StyledFieldset>
 
-      <SubmitButton type="submit">Add Plant</SubmitButton>
+      <SubmitButton type="submit">
+        {isEditMode ? "Save Changes" : "Add Plant"}
+      </SubmitButton>
     </FormContainer>
   );
 }
