@@ -6,7 +6,7 @@ export default function PlantForm({ onCancel }) {
   const [descriptionLength, setDescriptionLength] = useState(0);
   const [errors, setErrors] = useState({});
   const remaining = 225 - descriptionLength;
-
+  const [submitError, setSubmitError] = useState(null);
   async function handleSubmit(event) {
     event.preventDefault();
 
