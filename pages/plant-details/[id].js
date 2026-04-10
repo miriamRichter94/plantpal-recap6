@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import PlantDetails from "@/Components/PlantDetails/PlantDetails";
 import useSWR from "swr";
 
-export default function DetailsPage({ handleDeletePlant }) {
+export default function DetailsPage() {
   const router = useRouter();
   const { id } = router.query;
 
@@ -15,5 +15,5 @@ export default function DetailsPage({ handleDeletePlant }) {
   if (isLoading || !plant) return <h1>Loading...</h1>;
   if (error) return <h1>ERROR</h1>;
 
-  return <PlantDetails plant={plant} onDeletePlant={handleDeletePlant} />;
+  return <PlantDetails plant={plant}/>;
 }

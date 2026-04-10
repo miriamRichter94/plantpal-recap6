@@ -3,7 +3,6 @@ import PlantForm from "@/Components/PlantForm/PlantFormModal";
 import PlantList from "@/Components/PlantList/PlantList";
 import { useState } from "react";
 import useSWR from "swr";
-import { Toaster } from "react-hot-toast";
 
 export default function HomePage() {
   const [selectedFilter, setSelectedFilter] = useState(null);
