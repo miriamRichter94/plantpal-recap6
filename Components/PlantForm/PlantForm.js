@@ -8,6 +8,7 @@ export default function PlantForm({ onCancel, plant }) {
   const remaining = 225 - descriptionLength;
   const [submitError, setSubmitError] = useState(null);
   const isEditMode = Boolean(plant);
+
   async function handleSubmit(event) {
     event.preventDefault();
 
@@ -47,6 +48,9 @@ export default function PlantForm({ onCancel, plant }) {
 
       await res.json();
       await mutate("/api/plants");
+      if (plant?._id) {
+        await mutate(`/api/plants/${plant._id}`);
+      }
 
       setErrors({});
       setDescriptionLength(0);
@@ -100,9 +104,7 @@ export default function PlantForm({ onCancel, plant }) {
         defaultValue={plant?.description}
         onChange={(e) => setDescriptionLength(e.target.value.length)}
       />
-      <CharacterCount warning={remaining < 20}>
-        {remaining} characters remaining
-      </CharacterCount>
+      <CharacterCount $warning={remaining < 20}></CharacterCount>
 
       {/* Light Needs */}
       <StyledFieldset>
@@ -183,7 +185,7 @@ const StyledTextarea = styled.textarea`
 
 const CharacterCount = styled.p`
   font-size: 12px;
-  color: ${({ warning }) => (warning ? "red" : "#666")};
+  color: ${({ $warning }) => ($warning ? "red" : "#666")};
   margin-top: -6px;
 `;
 
