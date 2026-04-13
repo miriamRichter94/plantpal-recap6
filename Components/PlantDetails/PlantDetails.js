@@ -2,6 +2,9 @@ import styled from "styled-components";
 import Link from "next/link";
 import ScoreDisplay from "../ScoreDisplay/ScoreDisplay";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import DeleteConfirmationModal from "../DeleteConfirmation/DeleteConfirmationModal";
+import PlantModal from "../PlantForm/PlantModal";
 
 const numberWaterNeed = {
   Low: 1,
@@ -23,10 +26,12 @@ const fertiliserSeasonIcons = {
 };
 
 export default function PlantDetails({ plant }) {
+  const router = useRouter();
   return (
     <PageContainer>
       <StyledLink href="/">Back</StyledLink>
       <PlantName>{plant.name}</PlantName>
+      <PlantModal plant={plant} buttonLabel="Edit Plant" />
       <PlantInfoContainer>
         <LeftContainer>
           <BotanicalName>{plant.botanicalName}</BotanicalName>
@@ -70,15 +75,26 @@ export default function PlantDetails({ plant }) {
         <PlantInfoTitle>Plant Description:</PlantInfoTitle>
         <PlantDescription>{plant.description}</PlantDescription>
       </PlantDescriptionContainer>
+      <DeleteAction>
+        <DeleteConfirmationModal plantId={plant._id}>
+          ❌Delete Plant
+        </DeleteConfirmationModal>
+      </DeleteAction>
     </PageContainer>
   );
 }
+
+const DeleteAction = styled.div`
+  width: 240px;
+  height: 32px;
+  margin-left: 3%;
+  border: 2px solid black;
+`;
 
 const StyledLink = styled(Link)`
   position: absolute;
   left: 20px;
   top: 20px;
-
   background-color: rgb(202, 202, 202);
   border: 1px solid black;
   text-decoration: none;
@@ -92,7 +108,6 @@ const PageContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  text-align: center;
 `;
 
 const PlantName = styled.h1`
@@ -121,7 +136,6 @@ const PlantInfoContainer = styled.section`
   gap: 20px;
   margin-left: 20px;
   margin-right: 20px;
-  align-self: center;
 `;
 
 const LeftContainer = styled.article`
@@ -179,9 +193,7 @@ const PlantDescription = styled.p``;
 const PlantDescriptionContainer = styled.article`
   display: flex;
   flex-direction: column;
-
   justify-content: left;
-  text-align: left;
   margin-left: 30px;
   margin-right: 30px;
 `;
