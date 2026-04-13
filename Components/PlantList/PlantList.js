@@ -2,8 +2,13 @@ import styled, { css } from "styled-components";
 import PlantListItem from "../PlantItemPreview/PlantItemPreview";
 import Link from "next/link";
 import DeleteConfirmationModal from "../DeleteConfirmation/DeleteConfirmationModal";
+import BookMark from "../BookMark/BookMark";
 
-export default function PlantList({ plants = [] }) {
+export default function PlantList({
+  plants = [],
+  handleToggleIsBookmarked,
+  isBookmarked,
+}) {
   return (
     <PlantGrid>
       {plants.length !== 0 ? (
@@ -13,6 +18,13 @@ export default function PlantList({ plants = [] }) {
               <DeleteConfirmationModal plantId={plant._id}>
                 ❌
               </DeleteConfirmationModal>
+            </ActionDiv>
+            <ActionDiv $isBookmark>
+              <BookMark
+                onToggleIsBookmarked={handleToggleIsBookmarked}
+                isBookmarked={isBookmarked}
+                plantId={plant._id}
+              />
             </ActionDiv>
             <Link href={`/plant-details/${plant._id}`}>
               <PlantListItem plant={plant} />
@@ -55,6 +67,14 @@ const ActionDiv = styled.div`
     css`
       right: 5px;
     `}
+
+  ${({ $isBookmark }) =>
+    $isBookmark &&
+    css`
+      right: 5px;
+      top: 45px;
+    `}
+
   &:focus-within {
     opacity: 100%;
   }

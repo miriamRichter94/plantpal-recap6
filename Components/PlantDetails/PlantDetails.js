@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import DeleteConfirmationModal from "../DeleteConfirmation/DeleteConfirmationModal";
 import PlantModal from "../PlantForm/PlantModal";
+import BookMark from "../BookMark/BookMark";
 
 const numberWaterNeed = {
   Low: 1,
@@ -25,8 +26,11 @@ const fertiliserSeasonIcons = {
   Winter: "❄️",
 };
 
-export default function PlantDetails({ plant }) {
-  const router = useRouter();
+export default function PlantDetails({
+  plant,
+  handleToggleIsBookmarked,
+  isBookmarked,
+}) {
   return (
     <PageContainer>
       <StyledLink href="/">Back</StyledLink>
@@ -75,16 +79,23 @@ export default function PlantDetails({ plant }) {
         <PlantInfoTitle>Plant Description:</PlantInfoTitle>
         <PlantDescription>{plant.description}</PlantDescription>
       </PlantDescriptionContainer>
-      <DeleteAction>
+      <StyledAction>
         <DeleteConfirmationModal plantId={plant._id}>
           ❌Delete Plant
         </DeleteConfirmationModal>
-      </DeleteAction>
+      </StyledAction>
+      <StyledAction>
+        <BookMark
+          onToggleIsBookmarked={handleToggleIsBookmarked}
+          isBookmarked={isBookmarked}
+          plantId={plant._id}
+        />
+      </StyledAction>
     </PageContainer>
   );
 }
 
-const DeleteAction = styled.div`
+const StyledAction = styled.div`
   width: 240px;
   height: 32px;
   margin-left: 3%;
