@@ -1,5 +1,5 @@
 import Filter from "@/Components/Filter/Filter";
-import PlantForm from "@/Components/PlantForm/PlantFormModal";
+import PlantForm from "@/Components/PlantForm/PlantModal";
 import PlantList from "@/Components/PlantList/PlantList";
 import { useState } from "react";
 import useSWR from "swr";

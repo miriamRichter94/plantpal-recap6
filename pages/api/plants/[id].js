@@ -12,6 +12,17 @@ export default async function handler(request, response) {
       response.status(200).json({ message: "Sucess!" });
       return;
     }
+    if (request.method === "PUT") {
+      const updatedPlant = await Plant.findByIdAndUpdate(id, request.body, {
+        new: true,
+      });
+
+      if (!updatedPlant) {
+        return response.status(404).json({ message: "Plant not found" });
+      }
+
+      return response.status(200).json(updatedPlant);
+    }
 
     if (request.method === "GET") {
       const plant = await Plant.findById(id);
