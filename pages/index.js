@@ -1,5 +1,6 @@
 import Filter from "@/Components/Filter/Filter";
-import PlantForm from "@/Components/PlantForm/PlantModal";
+import PlantModal from "@/Components/PlantForm/PlantModal";
+import PlantForm from "@/Components/PlantForm/PlantForm";
 import PlantList from "@/Components/PlantList/PlantList";
 import { useState } from "react";
 import useSWR from "swr";
@@ -7,7 +8,7 @@ import useSWR from "swr";
 export default function HomePage() {
   const [selectedFilter, setSelectedFilter] = useState(null);
   const { data: plants, isLoading, error } = useSWR("/api/plants");
-
+  const [showModal, setShowModal] = useState(false);
   if (isLoading || !plants) return <h1>Loading...</h1>;
   if (error) return <h1>ERROR</h1>;
 
@@ -18,7 +19,13 @@ export default function HomePage() {
   return (
     <>
       <h1>Plant Pal</h1>
-      <PlantForm />
+
+      <button onClick={() => setShowModal(true)}>Create Plant</button>
+      {showModal && (
+        <PlantModal onClose={() => setShowModal(false)}>
+          <PlantForm onCancel={() => setShowModal(false)} />
+        </PlantModal>
+      )}
       <Filter
         selectedFilter={selectedFilter}
         setSelectedFilter={setSelectedFilter}
