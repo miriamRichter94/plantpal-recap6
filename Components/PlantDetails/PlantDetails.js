@@ -2,11 +2,11 @@ import styled from "styled-components";
 import Link from "next/link";
 import ScoreDisplay from "../ScoreDisplay/ScoreDisplay";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import DeleteConfirmationModal from "../DeleteConfirmation/DeleteConfirmationModal";
 import PlantModal from "../PlantForm/PlantModal";
 import PlantForm from "../PlantForm/PlantForm";
+import BookMark from "../BookMark/BookMark";
 
 const numberWaterNeed = {
   Low: 1,
@@ -27,8 +27,11 @@ const fertiliserSeasonIcons = {
   Winter: "❄️",
 };
 
-export default function PlantDetails({ plant }) {
-  const router = useRouter();
+export default function PlantDetails({
+  plant,
+  handleToggleBookmarkPlant,
+  bookmarkedPlants,
+}) {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -36,9 +39,7 @@ export default function PlantDetails({ plant }) {
       <StyledLink href="/">Back</StyledLink>
       <PlantName>{plant.name}</PlantName>
 
-
       <OpenButton onClick={() => setShowModal(true)}>Edit Plant</OpenButton>
-
 
       {showModal && (
         <PlantModal onClose={() => setShowModal(false)}>
@@ -90,16 +91,21 @@ export default function PlantDetails({ plant }) {
         <PlantInfoTitle>Plant Description:</PlantInfoTitle>
         <PlantDescription>{plant.description}</PlantDescription>
       </PlantDescriptionContainer>
-
-      <DeleteAction>
+      <StyledAction>
         <DeleteConfirmationModal plantId={plant._id}>
           ❌Delete Plant
         </DeleteConfirmationModal>
-      </DeleteAction>
+      </StyledAction>
+      <StyledAction>
+        <BookMark
+          onToggleBookmarkPlant={handleToggleBookmarkPlant}
+          bookmarkedPlants={bookmarkedPlants}
+          plantId={plant._id}
+        />
+      </StyledAction>
     </PageContainer>
   );
 }
-
 
 const OpenButton = styled.button`
   margin: 16px;
@@ -107,7 +113,7 @@ const OpenButton = styled.button`
   cursor: pointer;
 `;
 
-const DeleteAction = styled.div`
+const StyledAction = styled.div`
   width: 240px;
   height: 32px;
   margin-left: 3%;

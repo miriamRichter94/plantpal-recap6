@@ -1,6 +1,7 @@
-import { SWRConfig } from "swr";
+import useSWR, { SWRConfig } from "swr";
 import GlobalStyle from "../styles";
 import { Toaster } from "react-hot-toast";
+import useLocalStorageState from "use-local-storage-state";
 
 const fetcher = async (url) => {
   const res = await fetch(url);
@@ -17,6 +18,27 @@ const fetcher = async (url) => {
 };
 
 export default function App({ Component, pageProps }) {
+  const [bookmarkedPlants, setBookmarkedPlants] = useLocalStorageState(
+    "isBookmarked",
+    {
+      defaultValue: [],
+    }
+  );
+  const { data: plants, isLoading, error } = useSWR("/api/plants", fetcher);
+
+  if (isLoading || !plants) return <h1>Loading...</h1>;
+  if (error) return <h1>ERROR</h1>;
+
+  function handleToggleBookmarkPlant(id) {
+    if (!bookmarkedPlants.includes(id)) {
+      setBookmarkedPlants([...bookmarkedPlants, id]);
+    } else {
+      setBookmarkedPlants(
+        bookmarkedPlants.filter((bookmarkedId) => bookmarkedId != id)
+      );
+    }
+  }
+
   return (
     <>
       <GlobalStyle />
@@ -29,7 +51,12 @@ export default function App({ Component, pageProps }) {
         }}
       />
       <SWRConfig value={{ fetcher }}>
-        <Component {...pageProps} />
+        <Component
+          {...pageProps}
+          plants={plants}
+          handleToggleBookmarkPlant={handleToggleBookmarkPlant}
+          bookmarkedPlants={bookmarkedPlants}
+        />
       </SWRConfig>
     </>
   );

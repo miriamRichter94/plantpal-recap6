@@ -1,9 +1,13 @@
 import styled, { css } from "styled-components";
 import PlantListItem from "../PlantItemPreview/PlantItemPreview";
-import Link from "next/link";
 import DeleteConfirmationModal from "../DeleteConfirmation/DeleteConfirmationModal";
+import BookMark from "../BookMark/BookMark";
 
-export default function PlantList({ plants = [] }) {
+export default function PlantList({
+  plants = [],
+  handleToggleBookmarkPlant,
+  bookmarkedPlants,
+}) {
   return (
     <PlantGrid>
       {plants.length !== 0 ? (
@@ -14,9 +18,15 @@ export default function PlantList({ plants = [] }) {
                 ❌
               </DeleteConfirmationModal>
             </ActionDiv>
-            <Link href={`/plant-details/${plant._id}`}>
-              <PlantListItem plant={plant} />
-            </Link>
+            <ActionDiv $isBookmark>
+              <BookMark
+                onToggleBookmarkPlant={handleToggleBookmarkPlant}
+                bookmarkedPlants={bookmarkedPlants}
+                plantId={plant._id}
+              />
+            </ActionDiv>
+
+            <PlantListItem plant={plant} />
           </GridItem>
         ))
       ) : (
@@ -35,7 +45,11 @@ const PlantGrid = styled.ul`
   justify-content: space-around;
   align-content: center;
   row-gap: 20px;
-  column-gap: 16px;
+  column-gap: 32px;
+
+  @media (min-width: 1400px) {
+    grid-template-columns: repeat(6, minmax(200px, 1fr));
+  }
 `;
 
 const ActionDiv = styled.div`
@@ -55,6 +69,14 @@ const ActionDiv = styled.div`
     css`
       right: 5px;
     `}
+
+  ${({ $isBookmark }) =>
+    $isBookmark &&
+    css`
+      right: 5px;
+      top: 45px;
+    `}
+
   &:focus-within {
     opacity: 100%;
   }
@@ -62,8 +84,13 @@ const ActionDiv = styled.div`
 
 const GridItem = styled.li`
   position: relative;
-  justify-items: center;
-  padding: 10px;
+  background-color: #fafaf7;
+  border-radius: 10px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  height: 320px; /* fixed total card height */
+  overflow: hidden;
 
   &:hover ${ActionDiv} {
     opacity: 100%;

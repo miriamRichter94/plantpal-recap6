@@ -2,15 +2,16 @@ import Filter from "@/Components/Filter/Filter";
 import PlantModal from "@/Components/PlantForm/PlantModal";
 import PlantForm from "@/Components/PlantForm/PlantForm";
 import PlantList from "@/Components/PlantList/PlantList";
+import Link from "next/link";
 import { useState } from "react";
-import useSWR from "swr";
 
-export default function HomePage() {
+export default function HomePage({
+  plants,
+  handleToggleBookmarkPlant,
+  bookmarkedPlants,
+}) {
   const [selectedFilter, setSelectedFilter] = useState(null);
-  const { data: plants, isLoading, error } = useSWR("/api/plants");
   const [showModal, setShowModal] = useState(false);
-  if (isLoading || !plants) return <h1>Loading...</h1>;
-  if (error) return <h1>ERROR</h1>;
 
   const filteredPlants = selectedFilter
     ? plants.filter((plant) => plant.lightNeed === selectedFilter)
@@ -26,11 +27,16 @@ export default function HomePage() {
           <PlantForm onCancel={() => setShowModal(false)} />
         </PlantModal>
       )}
+      <Link href="/bookmarks">To bookmarked plants</Link>
       <Filter
         selectedFilter={selectedFilter}
         setSelectedFilter={setSelectedFilter}
       />
-      <PlantList plants={filteredPlants} />
+      <PlantList
+        plants={filteredPlants}
+        handleToggleBookmarkPlant={handleToggleBookmarkPlant}
+        bookmarkedPlants={bookmarkedPlants}
+      />
     </>
   );
 }
