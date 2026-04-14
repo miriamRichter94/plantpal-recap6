@@ -2,7 +2,6 @@ import styled from "styled-components";
 import Link from "next/link";
 import ScoreDisplay from "../ScoreDisplay/ScoreDisplay";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import DeleteConfirmationModal from "../DeleteConfirmation/DeleteConfirmationModal";
 import PlantModal from "../PlantForm/PlantModal";
@@ -30,8 +29,8 @@ const fertiliserSeasonIcons = {
 
 export default function PlantDetails({
   plant,
-  handleToggleIsBookmarked,
-  isBookmarked,
+  handleToggleBookmarkPlant,
+  bookmarkedPlants,
 }) {
   const [showModal, setShowModal] = useState(false);
 
@@ -99,8 +98,8 @@ export default function PlantDetails({
       </StyledAction>
       <StyledAction>
         <BookMark
-          onToggleIsBookmarked={handleToggleIsBookmarked}
-          isBookmarked={isBookmarked}
+          onToggleBookmarkPlant={handleToggleBookmarkPlant}
+          bookmarkedPlants={bookmarkedPlants}
           plantId={plant._id}
         />
       </StyledAction>

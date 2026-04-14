@@ -3,8 +3,8 @@ import PlantDetails from "@/Components/PlantDetails/PlantDetails";
 import useSWR from "swr";
 
 export default function DetailsPage({
-  handleToggleIsBookmarked,
-  isBookmarked,
+  handleToggleBookmarkPlant,
+  bookmarkedPlants,
 }) {
   const router = useRouter();
   const { id } = router.query;
@@ -23,8 +23,8 @@ export default function DetailsPage({
   return (
     <PlantDetails
       plant={plant}
-      handleToggleIsBookmarked={handleToggleIsBookmarked}
-      isBookmarked={isBookmarked}
+      handleToggleBookmarkPlant={handleToggleBookmarkPlant}
+      bookmarkedPlants={bookmarkedPlants}
     />
   );
 }

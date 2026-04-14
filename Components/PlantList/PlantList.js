@@ -1,13 +1,12 @@
 import styled, { css } from "styled-components";
 import PlantListItem from "../PlantItemPreview/PlantItemPreview";
-import Link from "next/link";
 import DeleteConfirmationModal from "../DeleteConfirmation/DeleteConfirmationModal";
 import BookMark from "../BookMark/BookMark";
 
 export default function PlantList({
   plants = [],
-  handleToggleIsBookmarked,
-  isBookmarked,
+  handleToggleBookmarkPlant,
+  bookmarkedPlants,
 }) {
   return (
     <PlantGrid>
@@ -21,8 +20,8 @@ export default function PlantList({
             </ActionDiv>
             <ActionDiv $isBookmark>
               <BookMark
-                onToggleIsBookmarked={handleToggleIsBookmarked}
-                isBookmarked={isBookmarked}
+                onToggleBookmarkPlant={handleToggleBookmarkPlant}
+                bookmarkedPlants={bookmarkedPlants}
                 plantId={plant._id}
               />
             </ActionDiv>

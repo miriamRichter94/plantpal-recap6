@@ -2,21 +2,32 @@ import Image from "next/image";
 import styled from "styled-components";
 
 export default function BookMark({
-  onToggleIsBookmarked,
-  isBookmarked,
+  onToggleBookmarkPlant,
+  bookmarkedPlants,
   plantId,
 }) {
   return (
-    <StyledButton onClick={() => onToggleIsBookmarked(plantId)}>
+    <StyledButton
+      onClick={() => onToggleBookmarkPlant(plantId)}
+      aria-label={
+        bookmarkedPlants.includes(plantId)
+          ? "Unbookmark the plant"
+          : "Bookmark the plant"
+      }
+    >
       <Image
         src={
-          isBookmarked.includes(plantId)
+          bookmarkedPlants.includes(plantId)
             ? "/assets/leafFilled.png"
             : "/assets/leafUnfilled.png"
         }
         width={25}
         height={25}
-        alt="Bookmark the plant"
+        alt={
+          bookmarkedPlants.includes(plantId)
+            ? "Plant is not bookmarked"
+            : "Plant is bookmarked"
+        }
       />
     </StyledButton>
   );

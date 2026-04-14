@@ -7,8 +7,8 @@ import { useState } from "react";
 
 export default function HomePage({
   plants,
-  handleToggleIsBookmarked,
-  isBookmarked,
+  handleToggleBookmarkPlant,
+  bookmarkedPlants,
 }) {
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -34,8 +34,8 @@ export default function HomePage({
       />
       <PlantList
         plants={filteredPlants}
-        handleToggleIsBookmarked={handleToggleIsBookmarked}
-        isBookmarked={isBookmarked}
+        handleToggleBookmarkPlant={handleToggleBookmarkPlant}
+        bookmarkedPlants={bookmarkedPlants}
       />
     </>
   );

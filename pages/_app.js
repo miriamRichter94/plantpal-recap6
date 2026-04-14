@@ -18,20 +18,23 @@ const fetcher = async (url) => {
 };
 
 export default function App({ Component, pageProps }) {
-  const [isBookmarked, setIsBookmarked] = useLocalStorageState("isBookmarked", {
-    defaultValue: [],
-  });
+  const [bookmarkedPlants, setBookmarkedPlants] = useLocalStorageState(
+    "isBookmarked",
+    {
+      defaultValue: [],
+    }
+  );
   const { data: plants, isLoading, error } = useSWR("/api/plants", fetcher);
 
   if (isLoading || !plants) return <h1>Loading...</h1>;
   if (error) return <h1>ERROR</h1>;
 
-  function handleToggleIsBookmarked(id) {
-    if (!isBookmarked.includes(id)) {
-      setIsBookmarked([...isBookmarked, id]);
+  function handleToggleBookmarkPlant(id) {
+    if (!bookmarkedPlants.includes(id)) {
+      setBookmarkedPlants([...bookmarkedPlants, id]);
     } else {
-      setIsBookmarked(
-        isBookmarked.filter((bookmarkedId) => bookmarkedId != id)
+      setBookmarkedPlants(
+        bookmarkedPlants.filter((bookmarkedId) => bookmarkedId != id)
       );
     }
   }
@@ -51,8 +54,8 @@ export default function App({ Component, pageProps }) {
         <Component
           {...pageProps}
           plants={plants}
-          handleToggleIsBookmarked={handleToggleIsBookmarked}
-          isBookmarked={isBookmarked}
+          handleToggleBookmarkPlant={handleToggleBookmarkPlant}
+          bookmarkedPlants={bookmarkedPlants}
         />
       </SWRConfig>
     </>
