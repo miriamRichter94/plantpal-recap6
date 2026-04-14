@@ -4,9 +4,9 @@ import ScoreDisplay from "../ScoreDisplay/ScoreDisplay";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import DeleteConfirmationModal from "../DeleteConfirmation/DeleteConfirmationModal";
 import PlantModal from "../PlantForm/PlantModal";
 import PlantForm from "../PlantForm/PlantForm";
+import NavActionBar from "../NavActionBar/NavActionBar";
 
 const numberWaterNeed = {
   Low: 1,
@@ -33,12 +33,7 @@ export default function PlantDetails({ plant }) {
 
   return (
     <PageContainer>
-      <StyledLink href="/">Back</StyledLink>
       <PlantName>{plant.name}</PlantName>
-
-
-      <OpenButton onClick={() => setShowModal(true)}>Edit Plant</OpenButton>
-
 
       {showModal && (
         <PlantModal onClose={() => setShowModal(false)}>
@@ -91,15 +86,14 @@ export default function PlantDetails({ plant }) {
         <PlantDescription>{plant.description}</PlantDescription>
       </PlantDescriptionContainer>
 
-      <DeleteAction>
-        <DeleteConfirmationModal plantId={plant._id}>
-          ❌Delete Plant
-        </DeleteConfirmationModal>
-      </DeleteAction>
+      <NavActionBar
+        onShowForm={() => setShowModal(true)}
+        onDeletePlant
+        plantId={plant._id}
+      />
     </PageContainer>
   );
 }
-
 
 const OpenButton = styled.button`
   margin: 16px;

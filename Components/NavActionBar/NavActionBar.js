@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import DeleteConfirmationModal from "../DeleteConfirmation/DeleteConfirmationModal";
 
 import Details from "@/src/icons/plant-svgrepo-com.svg";
 import Add from "@/src/icons/add-circle-svgrepo-com.svg";
@@ -9,7 +10,7 @@ import Delete from "@/src/icons/delete-1-svgrepo-com.svg";
 import List from "@/src/icons/reorder-svgrepo-com.svg";
 import Back from "@/src/icons/arrow-partial-rotate-left-svgrepo-com.svg";
 
-export default function NavActionBar({ onShowForm }) {
+export default function NavActionBar({ onShowForm, plantId }) {
   const router = useRouter();
   const { pathname } = router;
 
@@ -54,15 +55,15 @@ export default function NavActionBar({ onShowForm }) {
           <NavSection>
             <Button>
               <IconWrapper_Navbar>
-                <Icon_Edit />
+                <Icon_Edit onClick={onShowForm} />
               </IconWrapper_Navbar>
             </Button>
 
-            <Button>
+            <DeleteConfirmationModal plantId={plantId}>
               <IconWrapper_Navbar>
                 <Icon_Delete />
               </IconWrapper_Navbar>
-            </Button>
+            </DeleteConfirmationModal>
           </NavSection>
         )}
       </Nav>
@@ -118,11 +119,6 @@ const Button = styled.button`
   background-color: transparent;
 
   cursor: pointer;
-
-  &:hover {
-    color: rgb(106, 201, 157);
-    background-color: transparent;
-  }
 `;
 
 const Styled_Link = styled(Link)`
@@ -200,6 +196,11 @@ const IconWrapper_Navbar = styled.div`
   align-items: center;
   height: ${navbarHeight};
   width: ${(props) => (props.$double ? "75px" : null)};
+
+  &:hover {
+    color: rgb(106, 201, 157);
+    background-color: transparent;
+  }
 
   color: ${(props) => {
     if (props.$variant === "active") return "rgb(23, 196, 115)";

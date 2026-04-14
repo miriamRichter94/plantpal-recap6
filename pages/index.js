@@ -4,6 +4,7 @@ import PlantForm from "@/Components/PlantForm/PlantForm";
 import PlantList from "@/Components/PlantList/PlantList";
 import { useState } from "react";
 import useSWR from "swr";
+
 import NavActionBar from "@/Components/NavActionBar/NavActionBar";
 
 export default function HomePage() {
@@ -21,7 +22,6 @@ export default function HomePage() {
     <>
       <h1>Plant Pal</h1>
 
-      <button onClick={() => setShowModal(true)}>Create Plant</button>
       {showModal && (
         <PlantModal onClose={() => setShowModal(false)}>
           <PlantForm onCancel={() => setShowModal(false)} />
@@ -32,6 +32,7 @@ export default function HomePage() {
         setSelectedFilter={setSelectedFilter}
       />
       <PlantList plants={filteredPlants} />
+      <NavActionBar onShowForm={() => setShowModal(true)} />
     </>
   );
 }

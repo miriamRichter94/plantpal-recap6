@@ -32,7 +32,6 @@ export default function App({ Component, pageProps }) {
       />
       <SWRConfig value={{ fetcher }}>
         <Component {...pageProps} />
-        <NavActionBar />
       </SWRConfig>
     </>
   );
