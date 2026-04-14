@@ -1,15 +1,13 @@
 import styled from "styled-components";
 import Link from "next/link";
-
 import { useRouter } from "next/router";
 
 import Details from "@/src/icons/plant-svgrepo-com.svg";
 import Add from "@/src/icons/add-circle-svgrepo-com.svg";
 import Edit from "@/src/icons/edit-2-svgrepo-com.svg";
-import User from "@/src/icons/user-svgrepo-com.svg";
 import Delete from "@/src/icons/delete-1-svgrepo-com.svg";
-import Back from "@/src/icons/backward-svgrepo-com.svg";
 import List from "@/src/icons/reorder-svgrepo-com.svg";
+import Back from "@/src/icons/arrow-partial-rotate-left-svgrepo-com.svg";
 
 export default function NavActionBar({ onShowForm }) {
   const router = useRouter();
@@ -23,24 +21,23 @@ export default function NavActionBar({ onShowForm }) {
         <NavSection>
           <Styled_Link $active={pathname === "/"} href="/">
             <IconWrapper_Navbar $variant={pathname === "/" ? "active" : null}>
-              <Icon_List />
+              {pathname === "/" && <Icon_List />}
+              {pathname !== "/" && <Icon_Back />}
             </IconWrapper_Navbar>
           </Styled_Link>
 
-          <Styled_Link $active={pathname === "/plant-details/[id]"} href="/">
+          <Styled_PageLinkDummy
+            $active={pathname === "/plant-details/[id]"}
+            href="/"
+          >
             <IconWrapper_Navbar
-              $variant={pathname === "/plant-details/[id]" ? "active" : null}
+              $variant={
+                pathname === "/plant-details/[id]" ? "active" : "greyed-out"
+              }
             >
-              <Icon_Lotus />
+              <Icon_Details />
             </IconWrapper_Navbar>
-          </Styled_Link>
-          <Styled_Link $active={pathname === "user profile"} href=".">
-            <IconWrapper_Navbar
-              $variant={pathname === "user profile" ? "active" : null}
-            >
-              <Icon_User />
-            </IconWrapper_Navbar>
-          </Styled_Link>
+          </Styled_PageLinkDummy>
         </NavSection>
 
         {pathname === "/" && (
@@ -52,6 +49,7 @@ export default function NavActionBar({ onShowForm }) {
             </Button>
           </NavSection>
         )}
+
         {pathname === "/plant-details/[id]" && (
           <NavSection>
             <Button>
@@ -59,6 +57,7 @@ export default function NavActionBar({ onShowForm }) {
                 <Icon_Edit />
               </IconWrapper_Navbar>
             </Button>
+
             <Button>
               <IconWrapper_Navbar>
                 <Icon_Delete />
@@ -118,6 +117,8 @@ const Button = styled.button`
   color: inherit;
   background-color: transparent;
 
+  cursor: pointer;
+
   &:hover {
     color: rgb(106, 201, 157);
     background-color: transparent;
@@ -158,14 +159,37 @@ const Styled_Link = styled(Link)`
   }
 `;
 
-const LinkText = styled.p`
-  font-size: 14px;
-  font-weight: bold;
+const Styled_PageLinkDummy = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  flex: 1;
+  text-align: center;
   text-decoration: none;
-  color: black;
+  padding: 5px;
+  color: rgb(0, 0, 0);
+
+  &::after {
+    content: "";
+    position: absolute;
+
+    left: 10%;
+    right: 10%;
+    bottom: 3px;
+
+    height: 3px;
+    border-radius: 2px;
+    background: rgb(23, 196, 115);
+    transform: scaleX(${(props) => (props.$active ? 1 : 0)});
+
+    transform-origin: center;
+    transition: transform 0.2s ease;
+  }
 `;
 
-//---< Icons >---------------------------------------------------------------
+//---< Icon-Wrapping >---------------------------------------------------------------
 
 const iconSize = "80%";
 
@@ -175,28 +199,23 @@ const IconWrapper_Navbar = styled.div`
   justify-content: center;
   align-items: center;
   height: ${navbarHeight};
-  width: ${(props) => {
-    props.$double ? "2flex" : "1flex";
-  }};
+  width: ${(props) => (props.$double ? "75px" : null)};
 
   color: ${(props) => {
     if (props.$variant === "active") return "rgb(23, 196, 115)";
+    else if (props.$variant === "greyed-out") return "rgb(194, 194, 194)";
     else return "inherit";
   }};
 `;
 
-const IconSpacer = styled.div`
-  width: 2px;
-`;
+//---< Icons-BaseSettings >---------------------------------------------------------------
 
-const Icon_Lotus = styled(Lotus1)`
+const Icon_Details = styled(Details)`
   position: relative;
   width: auto;
   height: ${iconSize};
   display: block;
-
-  fill: currentColor;
-  stroke: none;
+  stroke: currentColor;
 `;
 
 const Icon_Add = styled(Add)`
@@ -204,8 +223,6 @@ const Icon_Add = styled(Add)`
   width: auto;
   height: ${iconSize};
   display: block;
-
-  fill: currentColor;
   stroke: none;
 `;
 
@@ -213,27 +230,6 @@ const Icon_Edit = styled(Edit)`
   width: auto;
   height: ${iconSize};
   display: block;
-
-  fill: currentColor;
-  stroke: none;
-`;
-
-const Icon_Back = styled(Back)`
-  position: relative;
-  width: auto;
-  height: ${iconSize};
-  display: block;
-
-  fill: currentColor;
-  stroke: none;
-`;
-
-const Icon_User = styled(User)`
-  position: relative;
-  width: auto;
-  height: ${iconSize};
-  display: block;
-
   fill: currentColor;
   stroke: none;
 `;
@@ -243,7 +239,6 @@ const Icon_List = styled(List)`
   width: auto;
   height: ${iconSize};
   display: block;
-
   fill: currentColor;
   stroke: none;
 `;
@@ -253,7 +248,15 @@ const Icon_Delete = styled(Delete)`
   width: auto;
   height: ${iconSize};
   display: block;
+  fill: currentColor;
+  stroke: none;
+`;
 
+const Icon_Back = styled(Back)`
+  position: relative;
+  width: auto;
+  height: ${iconSize};
+  display: block;
   fill: currentColor;
   stroke: none;
 `;

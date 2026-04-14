@@ -4,6 +4,7 @@ import PlantForm from "@/Components/PlantForm/PlantForm";
 import PlantList from "@/Components/PlantList/PlantList";
 import { useState } from "react";
 import useSWR from "swr";
+import NavActionBar from "@/Components/NavActionBar/NavActionBar";
 
 export default function HomePage() {
   const [selectedFilter, setSelectedFilter] = useState(null);

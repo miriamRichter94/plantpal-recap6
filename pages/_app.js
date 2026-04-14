@@ -1,4 +1,5 @@
 import { SWRConfig } from "swr";
+import { useState } from "react";
 import GlobalStyle from "../styles";
 import { Toaster } from "react-hot-toast";
 import NavActionBar from "@/Components/NavActionBar/NavActionBar";
