@@ -3,15 +3,13 @@ import Link from "next/link";
 
 import { useRouter } from "next/router";
 
-import Lotus1 from "@/src/icons/lotus-1-svgrepo-com.svg";
+import Details from "@/src/icons/plant-svgrepo-com.svg";
 import Add from "@/src/icons/add-circle-svgrepo-com.svg";
 import Edit from "@/src/icons/edit-2-svgrepo-com.svg";
 import User from "@/src/icons/user-svgrepo-com.svg";
 import Delete from "@/src/icons/delete-1-svgrepo-com.svg";
 import Back from "@/src/icons/backward-svgrepo-com.svg";
-import List from "@/src/icons/list-ul-alt-svgrepo-com.svg";
-
-import NavbarPath from "@/src/paths/plantpal-navbar.svg";
+import List from "@/src/icons/reorder-svgrepo-com.svg";
 
 export default function NavActionBar({ onShowForm }) {
   const router = useRouter();
@@ -258,17 +256,4 @@ const Icon_Delete = styled(Delete)`
 
   fill: currentColor;
   stroke: none;
-`;
-
-//---< Paths >---------------------------------------------------------------
-
-const Styled_NavbarPath = styled(NavbarPath)`
-  width: auto;
-  height: 50px;
-  display: block;
-  color: red;
-  fill: rgb(221, 221, 221);
-  stroke: rgb(82, 82, 82);
-  stroke-width: 2;
-  bottom: 0;
 `;

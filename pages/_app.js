@@ -1,6 +1,7 @@
 import { SWRConfig } from "swr";
 import GlobalStyle from "../styles";
 import { Toaster } from "react-hot-toast";
+import NavActionBar from "@/Components/NavActionBar/NavActionBar";
 
 const fetcher = async (url) => {
   const res = await fetch(url);
@@ -30,6 +31,7 @@ export default function App({ Component, pageProps }) {
       />
       <SWRConfig value={{ fetcher }}>
         <Component {...pageProps} />
+        <NavActionBar />
       </SWRConfig>
     </>
   );
