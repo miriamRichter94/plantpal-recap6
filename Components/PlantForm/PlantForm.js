@@ -3,31 +3,42 @@ import styled from "styled-components";
 import { mutate } from "swr";
 
 export default function PlantForm({ onCancel, plant }) {
-  const [descriptionLength, setDescriptionLength] = useState(0);
-  const [errors, setErrors] = useState({});
-  const remaining = 225 - descriptionLength;
-  const [submitError, setSubmitError] = useState(null);
   const isEditMode = Boolean(plant);
+
+  const MAX_DESCRIPTION_LENGTH = 225;
+
+  const [descriptionLength, setDescriptionLength] = useState(
+    plant?.description?.length || 0
+  );
+
+  const [errors, setErrors] = useState({});
+  const [submitError, setSubmitError] = useState(null);
 
   async function handleSubmit(event) {
     event.preventDefault();
 
-    const form = event.target;
-
     setSubmitError(null);
 
+    const form = event.target;
     const formDataObj = new FormData(form);
-    const fertiliserSeason = formDataObj.getAll("fertiliserSeason");
 
+    const fertiliserSeason = formDataObj.getAll("fertiliserSeason");
     const data = Object.fromEntries(formDataObj);
+
     data.fertiliserSeason = fertiliserSeason;
 
+
     const newErrors = {};
+
     if (!data.name?.trim()) newErrors.name = "Name is required";
     if (!data.botanicalName?.trim())
       newErrors.botanicalName = "Botanical Name is required";
     if (!data.lightNeed) newErrors.lightNeed = "Light Need is required";
     if (!data.waterNeed) newErrors.waterNeed = "Water Need is required";
+
+    if (data.imageUrl && !data.imageUrl.includes("pexels.com")) {
+      newErrors.imageUrl = "Only images from pexels.com are allowed";
+    }
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -35,20 +46,29 @@ export default function PlantForm({ onCancel, plant }) {
     }
 
     try {
-      const res = await fetch(
-        plant ? `/api/plants/${plant._id}` : "/api/plants",
-        {
-          method: plant ? "PUT" : "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        }
-      );
+      const url = isEditMode
+        ? `/api/plants/${plant._id}`
+        : "/api/plants";
 
-      if (!res.ok) throw new Error("Failed to add plant");
+      const method = isEditMode ? "PUT" : "POST";
+
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        throw new Error(
+          isEditMode ? "Failed to update plant" : "Failed to add plant"
+        );
+      }
 
       await res.json();
+
       await mutate("/api/plants");
-      if (plant?._id) {
+
+      if (isEditMode) {
         await mutate(`/api/plants/${plant._id}`);
       }
 
@@ -58,7 +78,11 @@ export default function PlantForm({ onCancel, plant }) {
       onCancel();
     } catch (error) {
       console.error(error);
-      setSubmitError("Failed to save plant. Please try again.");
+      setSubmitError(
+        isEditMode
+          ? "Failed to update plant. Please try again."
+          : "Failed to add plant. Please try again."
+      );
     }
   }
 
@@ -67,6 +91,7 @@ export default function PlantForm({ onCancel, plant }) {
       <CloseButton type="button" onClick={onCancel}>
         ✕
       </CloseButton>
+
       <h2>{isEditMode ? "Edit Plant" : "Add a New Plant"}</h2>
 
       {/* Image URL */}
@@ -77,16 +102,16 @@ export default function PlantForm({ onCancel, plant }) {
         type="text"
         id="imageUrl"
         name="imageUrl"
-        placeholder="https://www.pexels.com"
         defaultValue={plant?.imageUrl}
       />
+      {errors.imageUrl && <ErrorText>{errors.imageUrl}</ErrorText>}
 
-      {/* Name */}
+
       <label htmlFor="name">Plant Name *</label>
       <input id="name" name="name" defaultValue={plant?.name} />
       {errors.name && <ErrorText>{errors.name}</ErrorText>}
 
-      {/* Botanical Name */}
+
       <label htmlFor="botanicalName">Botanical Name *</label>
       <input
         id="botanicalName"
@@ -95,20 +120,25 @@ export default function PlantForm({ onCancel, plant }) {
       />
       {errors.botanicalName && <ErrorText>{errors.botanicalName}</ErrorText>}
 
-      {/* Description */}
+
       <label htmlFor="description">Description</label>
       <StyledTextarea
         id="description"
         name="description"
-        maxLength={225}
+        maxLength={MAX_DESCRIPTION_LENGTH}
         defaultValue={plant?.description}
         onChange={(e) => setDescriptionLength(e.target.value.length)}
       />
-      <CharacterCount $warning={remaining < 20}></CharacterCount>
 
-      {/* Light Needs */}
+      <CharacterCount
+        $warning={descriptionLength > MAX_DESCRIPTION_LENGTH - 20}
+      >
+        {descriptionLength} / {MAX_DESCRIPTION_LENGTH} characters
+      </CharacterCount>
+
+
+      <label>Light Needs *</label>
       <StyledFieldset>
-        <legend>Light Needs *</legend>
         {["Full Sun", "Partial Shade", "Full Shade"].map((option) => (
           <label key={option}>
             <input
@@ -123,9 +153,9 @@ export default function PlantForm({ onCancel, plant }) {
       </StyledFieldset>
       {errors.lightNeed && <ErrorText>{errors.lightNeed}</ErrorText>}
 
-      {/* Water Needs */}
+
+      <label>Water Needs *</label>
       <StyledFieldset>
-        <legend>Water Needs *</legend>
         {["Low", "Medium", "High"].map((option) => (
           <label key={option}>
             <input
@@ -140,9 +170,9 @@ export default function PlantForm({ onCancel, plant }) {
       </StyledFieldset>
       {errors.waterNeed && <ErrorText>{errors.waterNeed}</ErrorText>}
 
-      {/* Fertiliser Season */}
+
+      <label>Fertiliser Season</label>
       <StyledFieldset>
-        <legend>Fertiliser Season</legend>
         {["Spring", "Summer", "Autumn", "Winter"].map((season) => (
           <label key={season}>
             <input
@@ -159,11 +189,13 @@ export default function PlantForm({ onCancel, plant }) {
       <SubmitButton type="submit">
         {isEditMode ? "Save Changes" : "Add Plant"}
       </SubmitButton>
+
+      {submitError && <ErrorText>{submitError}</ErrorText>}
     </FormContainer>
   );
 }
 
-// --- Styled Components ---
+
 const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
