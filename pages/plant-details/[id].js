@@ -2,7 +2,10 @@ import { useRouter } from "next/router";
 import PlantDetails from "@/Components/PlantDetails/PlantDetails";
 import useSWR from "swr";
 
-export default function DetailsPage() {
+export default function DetailsPage({
+  handleToggleBookmarkPlant,
+  bookmarkedPlants,
+}) {
   const router = useRouter();
   const { id } = router.query;
 
@@ -18,8 +21,10 @@ export default function DetailsPage() {
   if (error) return <h1>ERROR</h1>;
 
   return (
-    <>
-      <PlantDetails plant={plant} />
-    </>
+    <PlantDetails
+      plant={plant}
+      handleToggleBookmarkPlant={handleToggleBookmarkPlant}
+      bookmarkedPlants={bookmarkedPlants}
+    />
   );
 }

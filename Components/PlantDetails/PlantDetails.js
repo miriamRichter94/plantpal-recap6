@@ -2,10 +2,10 @@ import styled from "styled-components";
 import Link from "next/link";
 import ScoreDisplay from "../ScoreDisplay/ScoreDisplay";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import PlantModal from "../PlantForm/PlantModal";
 import PlantForm from "../PlantForm/PlantForm";
+import BookMark from "../BookMark/BookMark";
 import NavActionBar from "../NavActionBar/NavActionBar";
 
 const numberWaterNeed = {
@@ -27,8 +27,11 @@ const fertiliserSeasonIcons = {
   Winter: "❄️",
 };
 
-export default function PlantDetails({ plant }) {
-  const router = useRouter();
+export default function PlantDetails({
+  plant,
+  handleToggleBookmarkPlant,
+  bookmarkedPlants,
+}) {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -85,15 +88,30 @@ export default function PlantDetails({ plant }) {
         <PlantInfoTitle>Plant Description:</PlantInfoTitle>
         <PlantDescription>{plant.description}</PlantDescription>
       </PlantDescriptionContainer>
-
       <NavActionBar
         onShowForm={() => setShowModal(true)}
         onDeletePlant
         plantId={plant._id}
+        handleToggleBookmarkPlant={handleToggleBookmarkPlant}
+        bookmarkedPlants={bookmarkedPlants}
       />
     </PageContainer>
   );
 }
+
+/*         <StyledAction>
+        <DeleteConfirmationModal plantId={plant._id}>
+          ❌Delete Plant
+        </DeleteConfirmationModal>
+      </StyledAction>
+      <StyledAction>
+        <BookMark
+          onToggleBookmarkPlant={handleToggleBookmarkPlant}
+          bookmarkedPlants={bookmarkedPlants}
+          plantId={plant._id}
+        />
+      </StyledAction>
+      */
 
 const OpenButton = styled.button`
   margin: 16px;
@@ -101,7 +119,7 @@ const OpenButton = styled.button`
   cursor: pointer;
 `;
 
-const DeleteAction = styled.div`
+const StyledAction = styled.div`
   width: 240px;
   height: 32px;
   margin-left: 3%;

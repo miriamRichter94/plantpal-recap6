@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import DeleteConfirmationModal from "../DeleteConfirmation/DeleteConfirmationModal";
+import BookMark from "../BookMark/BookMark";
 
 import Details from "@/src/icons/plant-svgrepo-com.svg";
 import Add from "@/src/icons/add-circle-svgrepo-com.svg";
@@ -9,8 +10,14 @@ import Edit from "@/src/icons/edit-2-svgrepo-com.svg";
 import Delete from "@/src/icons/delete-1-svgrepo-com.svg";
 import List from "@/src/icons/reorder-svgrepo-com.svg";
 import Back from "@/src/icons/arrow-partial-rotate-left-svgrepo-com.svg";
+import Bookmark from "@/src/icons/leaf-svgrepo-com.svg";
 
-export default function NavActionBar({ onShowForm, plantId }) {
+export default function NavActionBar({
+  onShowForm,
+  plantId,
+  handleToggleBookmarkPlant,
+  bookmarkedPlants,
+}) {
   const router = useRouter();
   const { pathname } = router;
 
@@ -35,10 +42,21 @@ export default function NavActionBar({ onShowForm, plantId }) {
               $variant={
                 pathname === "/plant-details/[id]" ? "active" : "greyed-out"
               }
+              $noHover
             >
               <Icon_Details />
             </IconWrapper_Navbar>
           </Styled_PageLinkDummy>
+          <Styled_Link
+            $active={pathname === "/bookmarks.js"}
+            href="/bookmarks/bookmarks"
+          >
+            <IconWrapper_Navbar
+              $variant={pathname === "/bookmarks/bookmarks" ? "active" : null}
+            >
+              <Icon_Bookmark />
+            </IconWrapper_Navbar>
+          </Styled_Link>
         </NavSection>
 
         {pathname === "/" && (
@@ -64,6 +82,12 @@ export default function NavActionBar({ onShowForm, plantId }) {
                 <Icon_Delete />
               </IconWrapper_Navbar>
             </DeleteConfirmationModal>
+
+            <BookMark
+              onToggleBookmarkPlant={handleToggleBookmarkPlant}
+              bookmarkedPlants={bookmarkedPlants}
+              plantId={plantId}
+            />
           </NavSection>
         )}
       </Nav>
@@ -133,10 +157,6 @@ const Styled_Link = styled(Link)`
   padding: 5px;
   color: rgb(0, 0, 0);
 
-  &:hover {
-    color: rgb(106, 201, 157);
-  }
-
   &::after {
     content: "";
     position: absolute;
@@ -198,7 +218,7 @@ const IconWrapper_Navbar = styled.div`
   width: ${(props) => (props.$double ? "75px" : null)};
 
   &:hover {
-    color: rgb(106, 201, 157);
+    color: ${(props) => (!props.$noHover ? "rgb(106, 201, 157)" : null)};
     background-color: transparent;
   }
 
@@ -254,6 +274,15 @@ const Icon_Delete = styled(Delete)`
 `;
 
 const Icon_Back = styled(Back)`
+  position: relative;
+  width: auto;
+  height: ${iconSize};
+  display: block;
+  fill: currentColor;
+  stroke: none;
+`;
+
+const Icon_Bookmark = styled(Bookmark)`
   position: relative;
   width: auto;
   height: ${iconSize};
