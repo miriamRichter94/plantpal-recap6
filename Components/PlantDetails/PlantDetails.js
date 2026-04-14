@@ -3,8 +3,10 @@ import Link from "next/link";
 import ScoreDisplay from "../ScoreDisplay/ScoreDisplay";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import DeleteConfirmationModal from "../DeleteConfirmation/DeleteConfirmationModal";
 import PlantModal from "../PlantForm/PlantModal";
+import PlantForm from "../PlantForm/PlantForm";
 
 const numberWaterNeed = {
   Low: 1,
@@ -27,14 +29,27 @@ const fertiliserSeasonIcons = {
 
 export default function PlantDetails({ plant }) {
   const router = useRouter();
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <PageContainer>
       <StyledLink href="/">Back</StyledLink>
       <PlantName>{plant.name}</PlantName>
-      <PlantModal plant={plant} buttonLabel="Edit Plant" />
+
+
+      <OpenButton onClick={() => setShowModal(true)}>Edit Plant</OpenButton>
+
+
+      {showModal && (
+        <PlantModal onClose={() => setShowModal(false)}>
+          <PlantForm plant={plant} onCancel={() => setShowModal(false)} />
+        </PlantModal>
+      )}
+
       <PlantInfoContainer>
         <LeftContainer>
           <BotanicalName>{plant.botanicalName}</BotanicalName>
+
           <PlantInfoTitle>Water Needs:</PlantInfoTitle>
           <ScoreDisplay
             value={numberWaterNeed[plant.waterNeed]}
@@ -75,6 +90,7 @@ export default function PlantDetails({ plant }) {
         <PlantInfoTitle>Plant Description:</PlantInfoTitle>
         <PlantDescription>{plant.description}</PlantDescription>
       </PlantDescriptionContainer>
+
       <DeleteAction>
         <DeleteConfirmationModal plantId={plant._id}>
           ❌Delete Plant
@@ -83,6 +99,13 @@ export default function PlantDetails({ plant }) {
     </PageContainer>
   );
 }
+
+
+const OpenButton = styled.button`
+  margin: 16px;
+  padding: 10px 14px;
+  cursor: pointer;
+`;
 
 const DeleteAction = styled.div`
   width: 240px;
