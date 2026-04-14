@@ -3,8 +3,10 @@ import Link from "next/link";
 import ScoreDisplay from "../ScoreDisplay/ScoreDisplay";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import DeleteConfirmationModal from "../DeleteConfirmation/DeleteConfirmationModal";
 import PlantModal from "../PlantForm/PlantModal";
+import PlantForm from "../PlantForm/PlantForm";
 import BookMark from "../BookMark/BookMark";
 
 const numberWaterNeed = {
@@ -31,14 +33,25 @@ export default function PlantDetails({
   handleToggleIsBookmarked,
   isBookmarked,
 }) {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <PageContainer>
       <StyledLink href="/">Back</StyledLink>
       <PlantName>{plant.name}</PlantName>
-      <PlantModal plant={plant} buttonLabel="Edit Plant" />
+
+      <OpenButton onClick={() => setShowModal(true)}>Edit Plant</OpenButton>
+
+      {showModal && (
+        <PlantModal onClose={() => setShowModal(false)}>
+          <PlantForm plant={plant} onCancel={() => setShowModal(false)} />
+        </PlantModal>
+      )}
+
       <PlantInfoContainer>
         <LeftContainer>
           <BotanicalName>{plant.botanicalName}</BotanicalName>
+
           <PlantInfoTitle>Water Needs:</PlantInfoTitle>
           <ScoreDisplay
             value={numberWaterNeed[plant.waterNeed]}
@@ -94,6 +107,12 @@ export default function PlantDetails({
     </PageContainer>
   );
 }
+
+const OpenButton = styled.button`
+  margin: 16px;
+  padding: 10px 14px;
+  cursor: pointer;
+`;
 
 const StyledAction = styled.div`
   width: 240px;

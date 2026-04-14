@@ -1,5 +1,6 @@
 import Filter from "@/Components/Filter/Filter";
-import PlantForm from "@/Components/PlantForm/PlantModal";
+import PlantModal from "@/Components/PlantForm/PlantModal";
+import PlantForm from "@/Components/PlantForm/PlantForm";
 import PlantList from "@/Components/PlantList/PlantList";
 import Link from "next/link";
 import { useState } from "react";
@@ -10,6 +11,7 @@ export default function HomePage({
   isBookmarked,
 }) {
   const [selectedFilter, setSelectedFilter] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const filteredPlants = selectedFilter
     ? plants.filter((plant) => plant.lightNeed === selectedFilter)
@@ -18,8 +20,13 @@ export default function HomePage({
   return (
     <>
       <h1>Plant Pal</h1>
-      <PlantForm />
 
+      <button onClick={() => setShowModal(true)}>Create Plant</button>
+      {showModal && (
+        <PlantModal onClose={() => setShowModal(false)}>
+          <PlantForm onCancel={() => setShowModal(false)} />
+        </PlantModal>
+      )}
       <Link href="/bookmarks">To bookmarked plants</Link>
       <Filter
         selectedFilter={selectedFilter}

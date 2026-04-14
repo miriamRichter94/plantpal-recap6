@@ -1,29 +1,12 @@
-import { useState } from "react";
 import styled from "styled-components";
-import PlantForm from "./PlantForm";
 
-export default function PlantModal({ plant, buttonLabel = "Create Plant" }) {
-  const [showForm, setShowForm] = useState(false);
-
+export default function PlantModal({ children, onClose }) {
   return (
-    <>
-      <OpenButton onClick={() => setShowForm(true)}>{buttonLabel}</OpenButton>
-      {showForm && (
-        <Overlay onClick={() => setShowForm(false)}>
-          <Modal onClick={(e) => e.stopPropagation()}>
-            <PlantForm plant={plant} onCancel={() => setShowForm(false)} />
-          </Modal>
-        </Overlay>
-      )}
-    </>
+    <Overlay onClick={onClose}>
+      <Modal onClick={(e) => e.stopPropagation()}>{children}</Modal>
+    </Overlay>
   );
 }
-
-const OpenButton = styled.button`
-  margin: 16px;
-  padding: 10px 14px;
-  cursor: pointer;
-`;
 
 const Overlay = styled.div`
   position: fixed;
