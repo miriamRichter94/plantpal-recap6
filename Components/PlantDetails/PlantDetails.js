@@ -1,11 +1,8 @@
 import styled from "styled-components";
-import Link from "next/link";
 import ScoreDisplay from "../ScoreDisplay/ScoreDisplay";
 import Image from "next/image";
-import { useState } from "react";
 import PlantModal from "../PlantForm/PlantModal";
 import PlantForm from "../PlantForm/PlantForm";
-import BookMark from "../BookMark/BookMark";
 import NavActionBar from "../NavActionBar/NavActionBar";
 
 const numberWaterNeed = {
@@ -31,9 +28,9 @@ export default function PlantDetails({
   plant,
   handleToggleBookmarkPlant,
   bookmarkedPlants,
+  showModal,
+  setShowModal,
 }) {
-  const [showModal, setShowModal] = useState(false);
-
   return (
     <>
       <PlantName>{plant.name}</PlantName>

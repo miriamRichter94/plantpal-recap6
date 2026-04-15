@@ -1,5 +1,4 @@
 import PlantList from "@/Components/PlantList/PlantList";
-import Link from "next/link";
 import NavActionBar from "@/Components/NavActionBar/NavActionBar";
 
 export default function Bookmarks({

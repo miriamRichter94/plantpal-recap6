@@ -2,11 +2,16 @@ import styled, { css } from "styled-components";
 import PlantListItem from "../PlantItemPreview/PlantItemPreview";
 import DeleteConfirmationModal from "../DeleteConfirmation/DeleteConfirmationModal";
 import BookMark from "../BookMark/BookMark";
+import Image from "next/image";
+import PlantModal from "../PlantForm/PlantModal";
+import PlantForm from "../PlantForm/PlantForm";
 
 export default function PlantList({
   plants = [],
   handleToggleBookmarkPlant,
   bookmarkedPlants,
+  setShowModal,
+  onSetPlantToEdit,
 }) {
   return (
     <PlantGrid>
@@ -24,6 +29,21 @@ export default function PlantList({
                 bookmarkedPlants={bookmarkedPlants}
                 plantId={plant._id}
               />
+            </ActionDiv>
+            <ActionDiv $isEdit>
+              <StyledButton
+                onClick={() => {
+                  setShowModal(true);
+                  onSetPlantToEdit(plant);
+                }}
+              >
+                <Image
+                  src="/assets/pencil.png"
+                  width={25}
+                  height={25}
+                  alt="Edit Pencil"
+                ></Image>
+              </StyledButton>
             </ActionDiv>
 
             <PlantListItem plant={plant} />
@@ -56,22 +76,32 @@ const ActionDiv = styled.div`
   position: absolute;
   width: 30px;
   height: 30px;
-  z-index: 1;
   padding: 0;
   border-radius: 20%;
   border: 1px solid black;
   background: white;
   bottom: 5px;
+
+  &:hover {
+    box-shadow: 2px 2px 2px grey;
+  }
+
   ${({ $isDelete }) =>
     $isDelete &&
     css`
       right: 5px;
     `}
 
-  ${({ $isBookmark }) =>
-    $isBookmark &&
+  ${({ $isEdit }) =>
+    $isEdit &&
     css`
       right: 45px;
+    `}
+
+    ${({ $isBookmark }) =>
+    $isBookmark &&
+    css`
+      right: 85px;
     `}
 `;
 
@@ -88,4 +118,12 @@ const GridItem = styled.li`
   .dark-mode & {
     box-shadow: 5px 5px 5px var(--plant-card-box-shadow);
   }
+`;
+
+const StyledButton = styled.button`
+  background-color: transparent;
+  border: none;
+  align-self: center;
+  padding: 0;
+  cursor: pointer;
 `;

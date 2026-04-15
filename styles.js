@@ -8,9 +8,9 @@ export default createGlobalStyle`
   }
 
   :root{
-    --backgound: #826F4B;
-    --background-gradient-one: rgba(130, 111, 75, 1);
-    --background-gradient-two: rgba(83, 147, 75, 1); //#53934B
+    --backgound: #C49847;
+    --background-gradient-one: rgba(196, 152, 71, 1) ;
+    --background-gradient-two: rgba(97, 179, 86, 1); //#61B356
     --background-plant-card: #fafaf7;
     --plant-card-font-color: black;
   }
@@ -27,7 +27,7 @@ export default createGlobalStyle`
   body {
     margin: 0;
     font-family: system-ui;
-    background: #826F4B;
+    background: var(--backgound);
     background: linear-gradient(180deg, var(--background-gradient-one) 0%, var(--background-gradient-two) 100%);
     background-attachment: fixed;
   }

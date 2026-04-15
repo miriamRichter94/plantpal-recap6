@@ -3,7 +3,7 @@ import GlobalStyle from "../styles";
 import { Toaster } from "react-hot-toast";
 import useLocalStorageState from "use-local-storage-state";
 import DarkModeSwitch from "@/Components/DarkModeSwtich/DarkModeSwitch";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const fetcher = async (url) => {
   const res = await fetch(url);
@@ -29,6 +29,9 @@ export default function App({ Component, pageProps }) {
   const [isDarkMode, setIsDarkMode] = useLocalStorageState("isDarkMode", {
     defaultValue: false,
   });
+
+  const [showModal, setShowModal] = useState(false);
+
   const { data: plants, isLoading, error } = useSWR("/api/plants", fetcher);
 
   useEffect(() => {
@@ -77,6 +80,8 @@ export default function App({ Component, pageProps }) {
           plants={plants}
           handleToggleBookmarkPlant={handleToggleBookmarkPlant}
           bookmarkedPlants={bookmarkedPlants}
+          showModal={showModal}
+          setShowModal={setShowModal}
         />
       </SWRConfig>
     </>

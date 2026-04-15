@@ -43,8 +43,6 @@ export default function Filter({ selectedFilter, setSelectedFilter }) {
       >
         Clear Filter
       </button>
-
-      {selectedFilter && <p>Active Filter: {selectedFilter}</p>}
     </div>
   );
 }

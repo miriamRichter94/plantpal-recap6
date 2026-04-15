@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { mutate } from "swr";
 
 export default function PlantForm({ onCancel, plant }) {
+  console.log("FormPlant", plant);
   const isEditMode = Boolean(plant);
 
   const MAX_DESCRIPTION_LENGTH = 225;
@@ -27,7 +28,6 @@ export default function PlantForm({ onCancel, plant }) {
 
     data.fertiliserSeason = fertiliserSeason;
 
-
     const newErrors = {};
 
     if (!data.name?.trim()) newErrors.name = "Name is required";
@@ -46,9 +46,7 @@ export default function PlantForm({ onCancel, plant }) {
     }
 
     try {
-      const url = isEditMode
-        ? `/api/plants/${plant._id}`
-        : "/api/plants";
+      const url = isEditMode ? `/api/plants/${plant._id}` : "/api/plants";
 
       const method = isEditMode ? "PUT" : "POST";
 
@@ -106,11 +104,9 @@ export default function PlantForm({ onCancel, plant }) {
       />
       {errors.imageUrl && <ErrorText>{errors.imageUrl}</ErrorText>}
 
-
       <label htmlFor="name">Plant Name *</label>
       <input id="name" name="name" defaultValue={plant?.name} />
       {errors.name && <ErrorText>{errors.name}</ErrorText>}
-
 
       <label htmlFor="botanicalName">Botanical Name *</label>
       <input
@@ -119,7 +115,6 @@ export default function PlantForm({ onCancel, plant }) {
         defaultValue={plant?.botanicalName}
       />
       {errors.botanicalName && <ErrorText>{errors.botanicalName}</ErrorText>}
-
 
       <label htmlFor="description">Description</label>
       <StyledTextarea
@@ -135,7 +130,6 @@ export default function PlantForm({ onCancel, plant }) {
       >
         {descriptionLength} / {MAX_DESCRIPTION_LENGTH} characters
       </CharacterCount>
-
 
       <label>Light Needs *</label>
       <StyledFieldset>
@@ -153,7 +147,6 @@ export default function PlantForm({ onCancel, plant }) {
       </StyledFieldset>
       {errors.lightNeed && <ErrorText>{errors.lightNeed}</ErrorText>}
 
-
       <label>Water Needs *</label>
       <StyledFieldset>
         {["Low", "Medium", "High"].map((option) => (
@@ -169,7 +162,6 @@ export default function PlantForm({ onCancel, plant }) {
         ))}
       </StyledFieldset>
       {errors.waterNeed && <ErrorText>{errors.waterNeed}</ErrorText>}
-
 
       <label>Fertiliser Season</label>
       <StyledFieldset>
@@ -194,7 +186,6 @@ export default function PlantForm({ onCancel, plant }) {
     </FormContainer>
   );
 }
-
 
 const FormContainer = styled.form`
   display: flex;

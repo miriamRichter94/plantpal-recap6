@@ -5,6 +5,8 @@ import useSWR from "swr";
 export default function DetailsPage({
   handleToggleBookmarkPlant,
   bookmarkedPlants,
+  showModal,
+  setShowModal,
 }) {
   const router = useRouter();
   const { id } = router.query;
@@ -25,6 +27,8 @@ export default function DetailsPage({
       plant={plant}
       handleToggleBookmarkPlant={handleToggleBookmarkPlant}
       bookmarkedPlants={bookmarkedPlants}
+      showModal={showModal}
+      setShowModal={setShowModal}
     />
   );
 }
