@@ -5,5 +5,6 @@ export default function Header({ children }) {
 }
 
 const Title = styled.h1`
-  color: var(--title-color);
+  color: var(--text-color);
+  align-self: center;
 `;

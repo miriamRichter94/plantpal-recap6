@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import PlantDetails from "@/Components/PlantDetails/PlantDetails";
 import useSWR from "swr";
 import Header from "@/Components/Header/Header";
+import styled from "styled-components";
 
 export default function DetailsPage({
   handleToggleBookmarkPlant,
@@ -24,7 +25,7 @@ export default function DetailsPage({
   if (error) return <h1>ERROR</h1>;
 
   return (
-    <>
+    <DetailsPageWrapper>
       <Header>{plant.name}</Header>
       <PlantDetails
         plant={plant}
@@ -33,6 +34,11 @@ export default function DetailsPage({
         showModal={showModal}
         setShowModal={setShowModal}
       />
-    </>
+    </DetailsPageWrapper>
   );
 }
+
+const DetailsPageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;

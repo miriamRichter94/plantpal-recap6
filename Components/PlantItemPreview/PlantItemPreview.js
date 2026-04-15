@@ -47,7 +47,7 @@ const StyledLink = styled(Link)`
   display: flex;
   flex-direction: column;
   height: 100%;
-  color: var(--plant-card-font-color);
+  color: var(--text-color);
 `;
 const TextWrapper = styled.div`
   padding: 8px;

@@ -114,7 +114,7 @@ const GridItem = styled.li`
   overflow: hidden;
 
   .dark-mode & {
-    box-shadow: 5px 5px 5px var(--plant-card-box-shadow);
+    box-shadow: 5px 5px 5px var(--text-color);
   }
 `;
 

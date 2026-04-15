@@ -50,5 +50,5 @@ export default function Filter({ selectedFilter, setSelectedFilter }) {
 }
 
 const FilterTitle = styled.h3`
-  color: var(--filter-title);
+  color: var(--text-color);
 `;
