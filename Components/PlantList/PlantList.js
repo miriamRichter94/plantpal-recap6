@@ -84,7 +84,7 @@ const ActionDiv = styled.div`
 
 const GridItem = styled.li`
   position: relative;
-  background-color: #fafaf7;
+  background-color: var(--background-plant-card);
   border-radius: 10px;
   padding: 8px;
   display: flex;
