@@ -61,9 +61,7 @@ const ActionDiv = styled.div`
   border-radius: 20%;
   border: 1px solid black;
   background: white;
-  @media (min-width: 1024px) {
-    opacity: 20%;
-  }
+  bottom: 5px;
   ${({ $isDelete }) =>
     $isDelete &&
     css`
@@ -73,13 +71,8 @@ const ActionDiv = styled.div`
   ${({ $isBookmark }) =>
     $isBookmark &&
     css`
-      right: 5px;
-      top: 45px;
+      right: 45px;
     `}
-
-  &:focus-within {
-    opacity: 100%;
-  }
 `;
 
 const GridItem = styled.li`
@@ -92,7 +85,7 @@ const GridItem = styled.li`
   height: 320px; /* fixed total card height */
   overflow: hidden;
 
-  &:hover ${ActionDiv} {
-    opacity: 100%;
+  .dark-mode & {
+    box-shadow: 5px 5px 5px var(--plant-card-box-shadow);
   }
 `;
