@@ -61,7 +61,7 @@ export default function NavActionBar({
 
         {pathname === "/" && (
           <NavSection>
-            <Button onClick={onShowForm}>
+            <Button aria-label="add new plant" onClick={onShowForm}>
               <IconWrapper_Navbar $double>
                 <Icon_Add />
               </IconWrapper_Navbar>
@@ -73,7 +73,7 @@ export default function NavActionBar({
           <NavSection>
             <Button>
               <IconWrapper_Navbar>
-                <Icon_Edit onClick={onShowForm} />
+                <Icon_Edit aria-label="edit plant" onClick={onShowForm} />
               </IconWrapper_Navbar>
             </Button>
 

@@ -35,7 +35,7 @@ export default function PlantDetails({
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <PageContainer>
+    <>
       <PlantName>{plant.name}</PlantName>
 
       {showModal && (
@@ -90,60 +90,13 @@ export default function PlantDetails({
       </PlantDescriptionContainer>
       <NavActionBar
         onShowForm={() => setShowModal(true)}
-        onDeletePlant
         plantId={plant._id}
         handleToggleBookmarkPlant={handleToggleBookmarkPlant}
         bookmarkedPlants={bookmarkedPlants}
       />
-    </PageContainer>
+    </>
   );
 }
-
-/*         <StyledAction>
-        <DeleteConfirmationModal plantId={plant._id}>
-          ❌Delete Plant
-        </DeleteConfirmationModal>
-      </StyledAction>
-      <StyledAction>
-        <BookMark
-          onToggleBookmarkPlant={handleToggleBookmarkPlant}
-          bookmarkedPlants={bookmarkedPlants}
-          plantId={plant._id}
-        />
-      </StyledAction>
-      */
-
-const OpenButton = styled.button`
-  margin: 16px;
-  padding: 10px 14px;
-  cursor: pointer;
-`;
-
-const StyledAction = styled.div`
-  width: 240px;
-  height: 32px;
-  margin-left: 3%;
-  border: 2px solid black;
-`;
-
-const StyledLink = styled(Link)`
-  position: absolute;
-  left: 20px;
-  top: 20px;
-  background-color: rgb(202, 202, 202);
-  border: 1px solid black;
-  text-decoration: none;
-  color: black;
-  font-size: 10px;
-  padding-left: 5px;
-  padding-right: 5px;
-`;
-
-const PageContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-`;
 
 const PlantName = styled.h1`
   text-decoration: underline;
