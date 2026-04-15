@@ -3,8 +3,6 @@ import PlantListItem from "../PlantItemPreview/PlantItemPreview";
 import DeleteConfirmationModal from "../DeleteConfirmation/DeleteConfirmationModal";
 import BookMark from "../BookMark/BookMark";
 import Image from "next/image";
-import PlantModal from "../PlantForm/PlantModal";
-import PlantForm from "../PlantForm/PlantForm";
 
 export default function PlantList({
   plants = [],

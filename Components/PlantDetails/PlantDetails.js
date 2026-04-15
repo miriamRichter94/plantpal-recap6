@@ -33,8 +33,6 @@ export default function PlantDetails({
 }) {
   return (
     <>
-      <PlantName>{plant.name}</PlantName>
-
       {showModal && (
         <PlantModal onClose={() => setShowModal(false)}>
           <PlantForm plant={plant} onCancel={() => setShowModal(false)} />
@@ -94,14 +92,6 @@ export default function PlantDetails({
     </>
   );
 }
-
-const PlantName = styled.h1`
-  text-decoration: underline;
-  text-align: center;
-  font-size: 16px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-`;
 
 const BotanicalName = styled.h2`
   font-size: 14px;

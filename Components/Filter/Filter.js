@@ -1,3 +1,5 @@
+import styled from "styled-components";
+
 export default function Filter({ selectedFilter, setSelectedFilter }) {
   const options = ["Full Sun", "Partial Shade", "Full Shade"];
 
@@ -11,7 +13,7 @@ export default function Filter({ selectedFilter, setSelectedFilter }) {
 
   return (
     <div>
-      <h3>Filter by Light Needs</h3>
+      <FilterTitle>Filter by Light Needs</FilterTitle>
 
       {options.map((option) => (
         <button
@@ -46,3 +48,7 @@ export default function Filter({ selectedFilter, setSelectedFilter }) {
     </div>
   );
 }
+
+const FilterTitle = styled.h3`
+  color: var(--filter-title);
+`;

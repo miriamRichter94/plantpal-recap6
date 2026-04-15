@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import PlantDetails from "@/Components/PlantDetails/PlantDetails";
 import useSWR from "swr";
+import Header from "@/Components/Header/Header";
 
 export default function DetailsPage({
   handleToggleBookmarkPlant,
@@ -23,12 +24,15 @@ export default function DetailsPage({
   if (error) return <h1>ERROR</h1>;
 
   return (
-    <PlantDetails
-      plant={plant}
-      handleToggleBookmarkPlant={handleToggleBookmarkPlant}
-      bookmarkedPlants={bookmarkedPlants}
-      showModal={showModal}
-      setShowModal={setShowModal}
-    />
+    <>
+      <Header>{plant.name}</Header>
+      <PlantDetails
+        plant={plant}
+        handleToggleBookmarkPlant={handleToggleBookmarkPlant}
+        bookmarkedPlants={bookmarkedPlants}
+        showModal={showModal}
+        setShowModal={setShowModal}
+      />
+    </>
   );
 }

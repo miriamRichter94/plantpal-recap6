@@ -13,6 +13,8 @@ export default createGlobalStyle`
     --background-gradient-two: rgba(97, 179, 86, 1); //#61B356
     --background-plant-card: #fafaf7;
     --plant-card-font-color: black;
+    --title-color: black;
+    --filter-title: black;
   }
 
   :root.dark-mode{
@@ -22,10 +24,12 @@ export default createGlobalStyle`
     --background-plant-card: #141c14; 
     --plant-card-font-color: #fafaf7; 
     --plant-card-box-shadow: #fafaf7;
+    --title-color: #fafaf7;
+    --filter-title: #fafaf7;
   }
 
   body {
-    margin: 0;
+    margin: 5px;
     font-family: system-ui;
     background: var(--backgound);
     background: linear-gradient(180deg, var(--background-gradient-one) 0%, var(--background-gradient-two) 100%);

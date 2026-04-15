@@ -5,6 +5,7 @@ import PlantList from "@/Components/PlantList/PlantList";
 import { useState } from "react";
 
 import NavActionBar from "@/Components/NavActionBar/NavActionBar";
+import Header from "@/Components/Header/Header";
 
 export default function HomePage({
   plants,
@@ -26,7 +27,7 @@ export default function HomePage({
 
   return (
     <>
-      <h1>Plant Pal</h1>
+      <Header>Plant Pal</Header>
 
       {showModal && (
         <PlantModal onClose={() => setShowModal(false)}>
