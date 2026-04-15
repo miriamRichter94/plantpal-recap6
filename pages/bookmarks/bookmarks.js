@@ -1,5 +1,6 @@
 import PlantList from "@/Components/PlantList/PlantList";
 import Link from "next/link";
+import NavActionBar from "@/Components/NavActionBar/NavActionBar";
 
 export default function Bookmarks({
   plants,
@@ -12,7 +13,6 @@ export default function Bookmarks({
   return (
     <>
       <h1>Bookmarked Plants</h1>
-      <Link href="/">Back To Plant List</Link>
       {bookmarkedPlantsData.length === 0 ? (
         <p>No Bookmarked Plants found</p>
       ) : (
@@ -22,6 +22,14 @@ export default function Bookmarks({
           bookmarkedPlants={bookmarkedPlants}
         />
       )}
+
+      <NavActionBar
+        onShowForm={() => setShowModal(true)}
+        onDeletePlant
+        plantId={""}
+        handleToggleBookmarkPlant={handleToggleBookmarkPlant}
+        bookmarkedPlants={bookmarkedPlants}
+      />
     </>
   );
 }

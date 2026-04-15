@@ -3,10 +3,10 @@ import Link from "next/link";
 import ScoreDisplay from "../ScoreDisplay/ScoreDisplay";
 import Image from "next/image";
 import { useState } from "react";
-import DeleteConfirmationModal from "../DeleteConfirmation/DeleteConfirmationModal";
 import PlantModal from "../PlantForm/PlantModal";
 import PlantForm from "../PlantForm/PlantForm";
 import BookMark from "../BookMark/BookMark";
+import NavActionBar from "../NavActionBar/NavActionBar";
 
 const numberWaterNeed = {
   Low: 1,
@@ -35,11 +35,8 @@ export default function PlantDetails({
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <PageContainer>
-      <StyledLink href="/">Back</StyledLink>
+    <>
       <PlantName>{plant.name}</PlantName>
-
-      <OpenButton onClick={() => setShowModal(true)}>Edit Plant</OpenButton>
 
       {showModal && (
         <PlantModal onClose={() => setShowModal(false)}>
@@ -91,53 +88,15 @@ export default function PlantDetails({
         <PlantInfoTitle>Plant Description:</PlantInfoTitle>
         <PlantDescription>{plant.description}</PlantDescription>
       </PlantDescriptionContainer>
-      <StyledAction>
-        <DeleteConfirmationModal plantId={plant._id}>
-          ❌Delete Plant
-        </DeleteConfirmationModal>
-      </StyledAction>
-      <StyledAction>
-        <BookMark
-          onToggleBookmarkPlant={handleToggleBookmarkPlant}
-          bookmarkedPlants={bookmarkedPlants}
-          plantId={plant._id}
-        />
-      </StyledAction>
-    </PageContainer>
+      <NavActionBar
+        onShowForm={() => setShowModal(true)}
+        plantId={plant._id}
+        handleToggleBookmarkPlant={handleToggleBookmarkPlant}
+        bookmarkedPlants={bookmarkedPlants}
+      />
+    </>
   );
 }
-
-const OpenButton = styled.button`
-  margin: 16px;
-  padding: 10px 14px;
-  cursor: pointer;
-`;
-
-const StyledAction = styled.div`
-  width: 240px;
-  height: 32px;
-  margin-left: 3%;
-  border: 2px solid black;
-`;
-
-const StyledLink = styled(Link)`
-  position: absolute;
-  left: 20px;
-  top: 20px;
-  background-color: rgb(202, 202, 202);
-  border: 1px solid black;
-  text-decoration: none;
-  color: black;
-  font-size: 10px;
-  padding-left: 5px;
-  padding-right: 5px;
-`;
-
-const PageContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-`;
 
 const PlantName = styled.h1`
   text-decoration: underline;
