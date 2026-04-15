@@ -5,7 +5,7 @@ import PlantList from "@/Components/PlantList/PlantList";
 import Link from "next/link";
 import { useState } from "react";
 import useSWR from "swr";
-
+import SearchBar from "@/Components/SearchBar/SearchBar";
 import NavActionBar from "@/Components/NavActionBar/NavActionBar";
 
 export default function HomePage({
@@ -15,10 +15,15 @@ export default function HomePage({
 }) {
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredPlants = selectedFilter
-    ? plants.filter((plant) => plant.lightNeed === selectedFilter)
-    : plants;
+  const filteredPlants = plants
+    .filter((plant) =>
+      selectedFilter ? plant.lightNeed === selectedFilter : true
+    )
+    .filter((plant) =>
+      plant.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
   return (
     <>
@@ -29,16 +34,20 @@ export default function HomePage({
           <PlantForm onCancel={() => setShowModal(false)} />
         </PlantModal>
       )}
-
+      <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       <Filter
         selectedFilter={selectedFilter}
         setSelectedFilter={setSelectedFilter}
       />
-      <PlantList
-        plants={filteredPlants}
-        handleToggleBookmarkPlant={handleToggleBookmarkPlant}
-        bookmarkedPlants={bookmarkedPlants}
-      />
+      {filteredPlants.length === 0 ? (
+        <p>No plants found</p>
+      ) : (
+        <PlantList
+          plants={filteredPlants}
+          handleToggleBookmarkPlant={handleToggleBookmarkPlant}
+          bookmarkedPlants={bookmarkedPlants}
+        />
+      )}
       <NavActionBar onShowForm={() => setShowModal(true)} />
     </>
   );

@@ -17,6 +17,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hot-toast": "^2.6.0",
+    "react-icons": "^5.6.0",
     "styled-components": "^6.3.12",
     "swr": "^2.4.1",
     "use-local-storage-state": "^17.4.0"
