@@ -4,6 +4,9 @@ import PlantForm from "@/Components/PlantForm/PlantForm";
 import PlantList from "@/Components/PlantList/PlantList";
 import Link from "next/link";
 import { useState } from "react";
+import useSWR from "swr";
+
+import NavActionBar from "@/Components/NavActionBar/NavActionBar";
 
 export default function HomePage({
   plants,
@@ -21,13 +24,12 @@ export default function HomePage({
     <>
       <h1>Plant Pal</h1>
 
-      <button onClick={() => setShowModal(true)}>Create Plant</button>
       {showModal && (
         <PlantModal onClose={() => setShowModal(false)}>
           <PlantForm onCancel={() => setShowModal(false)} />
         </PlantModal>
       )}
-      <Link href="/bookmarks">To bookmarked plants</Link>
+
       <Filter
         selectedFilter={selectedFilter}
         setSelectedFilter={setSelectedFilter}
@@ -37,6 +39,7 @@ export default function HomePage({
         handleToggleBookmarkPlant={handleToggleBookmarkPlant}
         bookmarkedPlants={bookmarkedPlants}
       />
+      <NavActionBar onShowForm={() => setShowModal(true)} />
     </>
   );
 }

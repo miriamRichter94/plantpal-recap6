@@ -7,7 +7,10 @@ export default function DeleteConfirmationModal({ children, plantId }) {
 
   return (
     <>
-      <OpenButton onClick={() => setShowConfirmModal(true)}>
+      <OpenButton
+        aria-label="delete plant"
+        onClick={() => setShowConfirmModal(true)}
+      >
         {children}
       </OpenButton>
 
