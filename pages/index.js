@@ -3,7 +3,7 @@ import PlantModal from "@/Components/PlantForm/PlantModal";
 import PlantForm from "@/Components/PlantForm/PlantForm";
 import PlantList from "@/Components/PlantList/PlantList";
 import { useState } from "react";
-
+import SearchBar from "@/Components/SearchBar/SearchBar";
 import NavActionBar from "@/Components/NavActionBar/NavActionBar";
 import Header from "@/Components/Header/Header";
 
@@ -16,10 +16,15 @@ export default function HomePage({
 }) {
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [plantToEdit, setPlantToEdit] = useState(undefined);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredPlants = selectedFilter
-    ? plants.filter((plant) => plant.lightNeed === selectedFilter)
-    : plants;
+  const filteredPlants = plants
+    .filter((plant) =>
+      selectedFilter ? plant.lightNeed === selectedFilter : true
+    )
+    .filter((plant) =>
+      plant.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
   function handleSetPlantToEdit(plant) {
     setPlantToEdit(plant);
@@ -34,18 +39,22 @@ export default function HomePage({
           <PlantForm plant={plantToEdit} onCancel={() => setShowModal(false)} />
         </PlantModal>
       )}
-
+      <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       <Filter
         selectedFilter={selectedFilter}
         setSelectedFilter={setSelectedFilter}
       />
-      <PlantList
-        plants={filteredPlants}
-        handleToggleBookmarkPlant={handleToggleBookmarkPlant}
-        bookmarkedPlants={bookmarkedPlants}
-        setShowModal={setShowModal}
-        onSetPlantToEdit={handleSetPlantToEdit}
-      />
+      {filteredPlants.length === 0 ? (
+        <p>No plants found</p>
+      ) : (
+        <PlantList
+          plants={filteredPlants}
+          handleToggleBookmarkPlant={handleToggleBookmarkPlant}
+          bookmarkedPlants={bookmarkedPlants}
+          setShowModal={setShowModal}
+          onSetPlantToEdit={handleSetPlantToEdit}
+        />
+      )}
       <NavActionBar
         onShowForm={() => {
           setShowModal(true);
