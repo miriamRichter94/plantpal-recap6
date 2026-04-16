@@ -6,6 +6,11 @@ import { useState } from "react";
 import SearchBar from "@/Components/SearchBar/SearchBar";
 import NavActionBar from "@/Components/NavActionBar/NavActionBar";
 import Header from "@/Components/Header/Header";
+import styled from "styled-components";
+import {
+  EmptyResult,
+  PageWrapper,
+} from "@/Components/StyledComponents/StyledComponents";
 
 export default function HomePage({
   plants,
@@ -31,7 +36,7 @@ export default function HomePage({
   }
 
   return (
-    <>
+    <PageWrapper>
       <Header>Plant Pal</Header>
 
       {showModal && (
@@ -45,7 +50,7 @@ export default function HomePage({
         setSelectedFilter={setSelectedFilter}
       />
       {filteredPlants.length === 0 ? (
-        <p>No plants found</p>
+        <EmptyResult>No plants found</EmptyResult>
       ) : (
         <PlantList
           plants={filteredPlants}
@@ -61,6 +66,6 @@ export default function HomePage({
           setPlantToEdit(undefined);
         }}
       />
-    </>
+    </PageWrapper>
   );
 }

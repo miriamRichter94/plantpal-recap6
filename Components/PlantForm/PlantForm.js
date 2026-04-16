@@ -1,4 +1,5 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 import styled from "styled-components";
 import { mutate } from "swr";
 
@@ -62,15 +63,18 @@ export default function PlantForm({ onCancel, plant }) {
       }
 
       await res.json();
-
       await mutate("/api/plants");
 
       if (isEditMode) {
         await mutate(`/api/plants/${plant._id}`);
+        toast.success("Plant sucessfully edit!");
+      } else {
+        toast.success("Plant sucessfully saved!");
       }
 
       setErrors({});
       setDescriptionLength(0);
+
       form.reset();
       onCancel();
     } catch (error) {
@@ -201,7 +205,7 @@ const CloseButton = styled.button`
 `;
 
 const StyledTextarea = styled.textarea`
-  resize: none;
+  /* resize: none; */
   padding: 8px;
 `;
 

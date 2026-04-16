@@ -7,4 +7,5 @@ export default function Header({ children }) {
 const Title = styled.h1`
   color: var(--text-color);
   align-self: center;
+  font-size: 2.5rem;
 `;

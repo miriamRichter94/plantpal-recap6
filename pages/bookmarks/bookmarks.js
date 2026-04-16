@@ -1,6 +1,10 @@
 import PlantList from "@/Components/PlantList/PlantList";
 import NavActionBar from "@/Components/NavActionBar/NavActionBar";
 import Header from "@/Components/Header/Header";
+import {
+  EmptyResult,
+  PageWrapper,
+} from "@/Components/StyledComponents/StyledComponents";
 
 export default function Bookmarks({
   plants,
@@ -11,10 +15,12 @@ export default function Bookmarks({
     (plant) => bookmarkedPlants.includes(plant._id) && plant
   );
   return (
-    <>
+    <PageWrapper>
       <Header>Bookmarked Plants</Header>
       {bookmarkedPlantsData.length === 0 ? (
-        <p>No Bookmarked Plants found</p>
+        <EmptyResult>
+          No Bookmarked Plants found. Bookmark some Plants!
+        </EmptyResult>
       ) : (
         <PlantList
           plants={bookmarkedPlantsData}
@@ -30,6 +36,6 @@ export default function Bookmarks({
         handleToggleBookmarkPlant={handleToggleBookmarkPlant}
         bookmarkedPlants={bookmarkedPlants}
       />
-    </>
+    </PageWrapper>
   );
 }
