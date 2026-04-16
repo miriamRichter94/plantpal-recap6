@@ -2,19 +2,20 @@ import Filter from "@/Components/Filter/Filter";
 import PlantModal from "@/Components/PlantForm/PlantModal";
 import PlantForm from "@/Components/PlantForm/PlantForm";
 import PlantList from "@/Components/PlantList/PlantList";
-import Link from "next/link";
 import { useState } from "react";
-import useSWR from "swr";
 import SearchBar from "@/Components/SearchBar/SearchBar";
 import NavActionBar from "@/Components/NavActionBar/NavActionBar";
+import Header from "@/Components/Header/Header";
 
 export default function HomePage({
   plants,
   handleToggleBookmarkPlant,
   bookmarkedPlants,
+  showModal,
+  setShowModal,
 }) {
   const [selectedFilter, setSelectedFilter] = useState(null);
-  const [showModal, setShowModal] = useState(false);
+  const [plantToEdit, setPlantToEdit] = useState(undefined);
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredPlants = plants
@@ -25,13 +26,17 @@ export default function HomePage({
       plant.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
+  function handleSetPlantToEdit(plant) {
+    setPlantToEdit(plant);
+  }
+
   return (
     <>
-      <h1>Plant Pal</h1>
+      <Header>Plant Pal</Header>
 
       {showModal && (
         <PlantModal onClose={() => setShowModal(false)}>
-          <PlantForm onCancel={() => setShowModal(false)} />
+          <PlantForm plant={plantToEdit} onCancel={() => setShowModal(false)} />
         </PlantModal>
       )}
       <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
@@ -46,9 +51,16 @@ export default function HomePage({
           plants={filteredPlants}
           handleToggleBookmarkPlant={handleToggleBookmarkPlant}
           bookmarkedPlants={bookmarkedPlants}
+          setShowModal={setShowModal}
+          onSetPlantToEdit={handleSetPlantToEdit}
         />
       )}
-      <NavActionBar onShowForm={() => setShowModal(true)} />
+      <NavActionBar
+        onShowForm={() => {
+          setShowModal(true);
+          setPlantToEdit(undefined);
+        }}
+      />
     </>
   );
 }

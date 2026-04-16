@@ -7,11 +7,27 @@ export default createGlobalStyle`
     box-sizing: border-box;
   }
 
+  :root{
+    --backgound: #C49847;
+    --background-gradient-one: rgba(196, 152, 71, 1) ;
+    --background-gradient-two: rgba(97, 179, 86, 1); //#61B356
+    --background-plant-card: #fafaf7;
+    --text-color: black;
+  }
+
+  :root.dark-mode{
+    --backgound: #422e01;
+    --background-gradient-one: rgba(66, 46, 1, 1);
+    --background-gradient-two: rgba(1, 66, 1, 1); //#014201
+    --background-plant-card: #141c14; 
+    --text-color: #fafaf7;
+  }
+
   body {
-    margin: 0;
+    margin: 5px;
     font-family: system-ui;
-    background: #826F4B;
-    background: linear-gradient(180deg, rgba(130, 111, 75, 1) 0%, rgba(83, 147, 75, 1) 100%);
+    background: var(--backgound);
+    background: linear-gradient(180deg, var(--background-gradient-one) 0%, var(--background-gradient-two) 100%);
     background-attachment: fixed;
   }
 `;

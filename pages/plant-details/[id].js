@@ -1,10 +1,14 @@
 import { useRouter } from "next/router";
 import PlantDetails from "@/Components/PlantDetails/PlantDetails";
 import useSWR from "swr";
+import Header from "@/Components/Header/Header";
+import styled from "styled-components";
 
 export default function DetailsPage({
   handleToggleBookmarkPlant,
   bookmarkedPlants,
+  showModal,
+  setShowModal,
 }) {
   const router = useRouter();
   const { id } = router.query;
@@ -21,10 +25,20 @@ export default function DetailsPage({
   if (error) return <h1>ERROR</h1>;
 
   return (
-    <PlantDetails
-      plant={plant}
-      handleToggleBookmarkPlant={handleToggleBookmarkPlant}
-      bookmarkedPlants={bookmarkedPlants}
-    />
+    <DetailsPageWrapper>
+      <Header>{plant.name}</Header>
+      <PlantDetails
+        plant={plant}
+        handleToggleBookmarkPlant={handleToggleBookmarkPlant}
+        bookmarkedPlants={bookmarkedPlants}
+        showModal={showModal}
+        setShowModal={setShowModal}
+      />
+    </DetailsPageWrapper>
   );
 }
+
+const DetailsPageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;

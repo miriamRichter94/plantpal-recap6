@@ -1,6 +1,6 @@
 import PlantList from "@/Components/PlantList/PlantList";
-import Link from "next/link";
 import NavActionBar from "@/Components/NavActionBar/NavActionBar";
+import Header from "@/Components/Header/Header";
 
 export default function Bookmarks({
   plants,
@@ -12,7 +12,7 @@ export default function Bookmarks({
   );
   return (
     <>
-      <h1>Bookmarked Plants</h1>
+      <Header>Bookmarked Plants</Header>
       {bookmarkedPlantsData.length === 0 ? (
         <p>No Bookmarked Plants found</p>
       ) : (

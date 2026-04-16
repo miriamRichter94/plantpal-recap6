@@ -1,11 +1,8 @@
 import styled from "styled-components";
-import Link from "next/link";
 import ScoreDisplay from "../ScoreDisplay/ScoreDisplay";
 import Image from "next/image";
-import { useState } from "react";
 import PlantModal from "../PlantForm/PlantModal";
 import PlantForm from "../PlantForm/PlantForm";
-import BookMark from "../BookMark/BookMark";
 import NavActionBar from "../NavActionBar/NavActionBar";
 
 const numberWaterNeed = {
@@ -31,13 +28,11 @@ export default function PlantDetails({
   plant,
   handleToggleBookmarkPlant,
   bookmarkedPlants,
+  showModal,
+  setShowModal,
 }) {
-  const [showModal, setShowModal] = useState(false);
-
   return (
     <>
-      <PlantName>{plant.name}</PlantName>
-
       {showModal && (
         <PlantModal onClose={() => setShowModal(false)}>
           <PlantForm plant={plant} onCancel={() => setShowModal(false)} />
@@ -45,49 +40,54 @@ export default function PlantDetails({
       )}
 
       <PlantInfoContainer>
-        <LeftContainer>
-          <BotanicalName>{plant.botanicalName}</BotanicalName>
+        <BotanicalName>
+          <strong>Botanical Name:</strong> {plant.botanicalName}
+        </BotanicalName>
 
-          <PlantInfoTitle>Water Needs:</PlantInfoTitle>
+        <StyledImage
+          src={plant.imageUrl}
+          alt={`${plant.name} Image`}
+          width={180}
+          height={280}
+        />
+
+        <PlantNeedsWrapper>
+          <PlantNeedsTitle>Water Needs:</PlantNeedsTitle>
           <ScoreDisplay
             value={numberWaterNeed[plant.waterNeed]}
             max={3}
             ActiveIcon={NeedsWaterCircle}
             InactiveIcon={NeedsWaterCircleInactive}
           />
+        </PlantNeedsWrapper>
 
-          <PlantInfoTitle>Light Needs:</PlantInfoTitle>
+        <PlantNeedsWrapper>
+          <PlantNeedsTitle>Light Needs:</PlantNeedsTitle>
           <ScoreDisplay
             value={numberLightNeed[plant.lightNeed]}
             max={3}
             ActiveIcon={NeedsLightCircle}
             InactiveIcon={NeedsLightCircleInactive}
           />
+        </PlantNeedsWrapper>
 
-          <PlantInfoTitle>Fertiliser Season:</PlantInfoTitle>
-          <NeedsContainer>
+        <PlantNeedsWrapper>
+          <PlantNeedsTitle>Fertiliser Season:</PlantNeedsTitle>
+          <FertilizerWrapper>
             {plant.fertiliserSeason.map((item, index) => (
               <FertiliserSeasonIcon key={index}>
                 {fertiliserSeasonIcons[item]}
               </FertiliserSeasonIcon>
             ))}
-          </NeedsContainer>
-        </LeftContainer>
+          </FertilizerWrapper>
+        </PlantNeedsWrapper>
 
-        <RightContainer>
-          <Image
-            src={plant.imageUrl}
-            alt={`${plant.name} Image`}
-            width={180}
-            height={280}
-          />
-        </RightContainer>
+        <PlantDescriptionContainer>
+          <DescriptionTitle>Plant Description:</DescriptionTitle>
+          <PlantDescription>{plant.description}</PlantDescription>
+        </PlantDescriptionContainer>
       </PlantInfoContainer>
 
-      <PlantDescriptionContainer>
-        <PlantInfoTitle>Plant Description:</PlantInfoTitle>
-        <PlantDescription>{plant.description}</PlantDescription>
-      </PlantDescriptionContainer>
       <NavActionBar
         onShowForm={() => setShowModal(true)}
         plantId={plant._id}
@@ -98,45 +98,39 @@ export default function PlantDetails({
   );
 }
 
-const PlantName = styled.h1`
-  text-decoration: underline;
-  text-align: center;
-  font-size: 16px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-`;
-
-const BotanicalName = styled.h2`
-  font-size: 14px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-`;
-
-const PlantInfoTitle = styled.p`
-  font-weight: bold;
-  font-size: 12px;
-  margin-bottom: 20px;
-`;
-
 const PlantInfoContainer = styled.section`
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  margin-left: 20px;
-  margin-right: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(5, auto);
+  gap: 10px;
+  color: var(--text-color);
 `;
 
-const LeftContainer = styled.article`
-  display: flex;
-  flex-direction: column;
+const BotanicalName = styled.p`
+  grid-column: 1 / -1;
+  place-self: center;
+  font-size: 1.2em;
+
+  @media (min-width: 900px) {
+    font-size: 1.5em;
+  }
 `;
 
-const RightContainer = styled.article`
-  display: flex;
-  flex-direction: column;
+const StyledImage = styled(Image)`
+  grid-row: 2 / 5;
+  grid-column: 2/-1;
 `;
 
-const NeedsContainer = styled.div`
+const PlantNeedsWrapper = styled.div`
+  padding-left: 10px;
+`;
+
+const PlantNeedsTitle = styled.p`
+  font-size: 1.3rem;
+  font-weight: bold;
+`;
+
+const FertilizerWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: left;
@@ -176,12 +170,18 @@ const FertiliserSeasonIcon = styled.div`
   width: 20px;
 `;
 
-const PlantDescription = styled.p``;
-
 const PlantDescriptionContainer = styled.article`
   display: flex;
   flex-direction: column;
   justify-content: left;
+  grid-column: 1 / -1;
   margin-left: 30px;
   margin-right: 30px;
 `;
+
+const DescriptionTitle = styled.p`
+  font-weight: bold;
+  margin-bottom: 20px;
+`;
+
+const PlantDescription = styled.p``;

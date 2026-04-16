@@ -2,11 +2,14 @@ import styled, { css } from "styled-components";
 import PlantListItem from "../PlantItemPreview/PlantItemPreview";
 import DeleteConfirmationModal from "../DeleteConfirmation/DeleteConfirmationModal";
 import BookMark from "../BookMark/BookMark";
+import Image from "next/image";
 
 export default function PlantList({
   plants = [],
   handleToggleBookmarkPlant,
   bookmarkedPlants,
+  setShowModal,
+  onSetPlantToEdit,
 }) {
   return (
     <PlantGrid>
@@ -24,6 +27,21 @@ export default function PlantList({
                 bookmarkedPlants={bookmarkedPlants}
                 plantId={plant._id}
               />
+            </ActionDiv>
+            <ActionDiv $isEdit>
+              <StyledButton
+                onClick={() => {
+                  setShowModal(true);
+                  onSetPlantToEdit(plant);
+                }}
+              >
+                <Image
+                  src="/assets/pencil.png"
+                  width={25}
+                  height={25}
+                  alt="Edit Pencil"
+                ></Image>
+              </StyledButton>
             </ActionDiv>
 
             <PlantListItem plant={plant} />
@@ -56,35 +74,38 @@ const ActionDiv = styled.div`
   position: absolute;
   width: 30px;
   height: 30px;
-  z-index: 1;
   padding: 0;
   border-radius: 20%;
   border: 1px solid black;
   background: white;
-  @media (min-width: 1024px) {
-    opacity: 20%;
+  bottom: 5px;
+
+  &:hover {
+    box-shadow: 2px 2px 2px grey;
   }
+
   ${({ $isDelete }) =>
     $isDelete &&
     css`
       right: 5px;
     `}
 
-  ${({ $isBookmark }) =>
-    $isBookmark &&
+  ${({ $isEdit }) =>
+    $isEdit &&
     css`
-      right: 5px;
-      top: 45px;
+      right: 45px;
     `}
 
-  &:focus-within {
-    opacity: 100%;
-  }
+    ${({ $isBookmark }) =>
+    $isBookmark &&
+    css`
+      right: 85px;
+    `}
 `;
 
 const GridItem = styled.li`
   position: relative;
-  background-color: #fafaf7;
+  background-color: var(--background-plant-card);
   border-radius: 10px;
   padding: 8px;
   display: flex;
@@ -92,7 +113,15 @@ const GridItem = styled.li`
   height: 320px; /* fixed total card height */
   overflow: hidden;
 
-  &:hover ${ActionDiv} {
-    opacity: 100%;
+  .dark-mode & {
+    box-shadow: 5px 5px 5px var(--text-color);
   }
+`;
+
+const StyledButton = styled.button`
+  background-color: transparent;
+  border: none;
+  align-self: center;
+  padding: 0;
+  cursor: pointer;
 `;
