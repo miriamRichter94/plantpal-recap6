@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { mutate } from "swr";
 
 export default function PlantForm({ onCancel, plant }) {
-  console.log("FormPlant", plant);
   const isEditMode = Boolean(plant);
 
   const MAX_DESCRIPTION_LENGTH = 225;

@@ -49,6 +49,6 @@ export default function Filter({ selectedFilter, setSelectedFilter }) {
   );
 }
 
-const FilterTitle = styled.h3`
+const FilterTitle = styled.h2`
   color: var(--text-color);
 `;

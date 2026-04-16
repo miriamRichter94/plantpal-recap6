@@ -2,26 +2,16 @@ import styled from "styled-components";
 
 export default function DarkModeSwitch({ isDarkMode, onToggleDarkMode }) {
   return (
-    <DarkModeWrapper>
-      <Label>
-        <Input
-          type="checkbox"
-          checked={isDarkMode}
-          onChange={onToggleDarkMode}
-        />
-        <Slider />
-      </Label>
-    </DarkModeWrapper>
+    <Label>
+      <Input type="checkbox" checked={isDarkMode} onChange={onToggleDarkMode} />
+      <Slider />
+    </Label>
   );
 }
 
-const DarkModeWrapper = styled.div`
+const Label = styled.label`
   position: absolute;
   right: 10px;
-`;
-
-const Label = styled.label`
-  position: relative;
   display: inline-block;
   width: 60px;
   height: 30px;
