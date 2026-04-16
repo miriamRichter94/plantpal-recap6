@@ -5,6 +5,7 @@ import PlantList from "@/Components/PlantList/PlantList";
 import Link from "next/link";
 import { useState } from "react";
 import useSWR from "swr";
+import styled from "styled-components";
 
 import NavActionBar from "@/Components/NavActionBar/NavActionBar";
 
@@ -30,10 +31,15 @@ export default function HomePage({
         </PlantModal>
       )}
 
-      <Filter
-        selectedFilter={selectedFilter}
-        setSelectedFilter={setSelectedFilter}
-      />
+      <SearchFilterContainer>
+        <DummyDiv />
+
+        <Filter
+          selectedFilter={selectedFilter}
+          setSelectedFilter={setSelectedFilter}
+        />
+      </SearchFilterContainer>
+
       <PlantList
         plants={filteredPlants}
         handleToggleBookmarkPlant={handleToggleBookmarkPlant}
@@ -43,3 +49,18 @@ export default function HomePage({
     </>
   );
 }
+
+const SearchFilterContainer = styled.section`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+  padding-right: 10px;
+  padding-left: 10px;
+`;
+
+const DummyDiv = styled.div`
+  flex: 1;
+  height: 30px;
+  background-color: grey;
+`;
