@@ -46,9 +46,7 @@ export default function PlantList({
               <ToolTip>Edit</ToolTip>
             </ActionDiv>
             <ActionDiv $isDelete>
-              <DeleteConfirmationModal plantId={plant._id}>
-                ❌
-              </DeleteConfirmationModal>
+              <DeleteConfirmationModal plantId={plant._id} />
               <ToolTip>Delete</ToolTip>
             </ActionDiv>
 
@@ -74,7 +72,7 @@ const PlantGrid = styled.ul`
   column-gap: 32px;
 
   @media (min-width: 1400px) {
-    grid-template-columns: repeat(6, minmax(200px, 1fr));
+    grid-template-columns: repeat(5, minmax(200px, 1fr));
   }
 `;
 
@@ -139,9 +137,10 @@ const GridItem = styled.li`
   flex-direction: column;
   height: 320px; /* fixed total card height */
   overflow: hidden;
+  box-shadow: 5px 5px 3px var(--box-shadow);
 
   .dark-mode & {
-    box-shadow: 5px 5px 5px var(--text-color);
+    box-shadow: 5px 5px 3px var(--box-shadow);
   }
 `;
 

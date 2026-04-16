@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import DeleteConfirmation from "./DeleteConfirmation";
+import Image from "next/image";
 
 export default function DeleteConfirmationModal({ children, plantId }) {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -11,7 +12,12 @@ export default function DeleteConfirmationModal({ children, plantId }) {
         aria-label="delete plant"
         onClick={() => setShowConfirmModal(true)}
       >
-        {children}
+        <Image
+          src="/assets/garbage.png"
+          width={25}
+          height={25}
+          alt="Trash Can"
+        ></Image>
       </OpenButton>
 
       {showConfirmModal && (
@@ -31,6 +37,8 @@ export default function DeleteConfirmationModal({ children, plantId }) {
 const OpenButton = styled.button`
   background-color: transparent;
   border: none;
+  padding: 0;
+  width: 100%;
   align-self: center;
   cursor: pointer;
 `;

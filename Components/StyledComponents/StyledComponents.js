@@ -6,6 +6,7 @@ export const PageWrapper = styled.div`
   max-width: 1400px;
   width: 100%;
   overflow: hidden;
+  margin-bottom: 80px;
 `;
 
 export const EmptyResult = styled.p`

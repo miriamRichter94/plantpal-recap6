@@ -97,12 +97,21 @@ export default function PlantForm({ onCancel, plant }) {
 
       {/* Image URL */}
       <label htmlFor="imageUrl">
-        Plant Image URL (only from https://www.pexels.com)
+        Plant Image URL (only from
+        <a
+          href="https://www.pexels.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Pexels
+        </a>
+        )
       </label>
       <input
         type="text"
         id="imageUrl"
         name="imageUrl"
+        placeholder="https://www.pexels.com/"
         defaultValue={plant?.imageUrl}
       />
       {errors.imageUrl && <ErrorText>{errors.imageUrl}</ErrorText>}

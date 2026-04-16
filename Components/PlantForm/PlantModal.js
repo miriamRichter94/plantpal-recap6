@@ -29,4 +29,5 @@ const Modal = styled.div`
   position: relative;
   text-align: left;
   z-index: 10000;
+  overscroll-behavior: contain;
 `;

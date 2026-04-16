@@ -19,6 +19,11 @@ const Wrapper = styled.div`
   position: relative;
   width: 100%;
   margin-bottom: 1rem;
+  box-shadow: 2px 2px 2px var(--box-shadow);
+
+  .dark-mode & {
+    box-shadow: none;
+  }
 `;
 
 const Input = styled.input`
