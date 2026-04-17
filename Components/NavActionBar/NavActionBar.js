@@ -22,76 +22,72 @@ export default function NavActionBar({
   const { pathname } = router;
 
   return (
-    <>
-      <NavbarSpacer />
+    <Nav>
+      <NavSection>
+        <Styled_Link $active={pathname === "/"} href="/">
+          <IconWrapper_Navbar $variant={pathname === "/" ? "active" : null}>
+            {pathname === "/" && <Icon_List />}
+            {pathname !== "/" && <Icon_Back />}
+          </IconWrapper_Navbar>
+        </Styled_Link>
 
-      <Nav>
+        <Styled_PageLinkDummy
+          $active={pathname === "/plant-details/[id]"}
+          href="/"
+        >
+          <IconWrapper_Navbar
+            $variant={
+              pathname === "/plant-details/[id]" ? "active" : "greyed-out"
+            }
+            $noHover
+          >
+            <Icon_Details />
+          </IconWrapper_Navbar>
+        </Styled_PageLinkDummy>
+        <Styled_Link
+          $active={pathname === "/bookmarks.js"}
+          href="/bookmarks/bookmarks"
+        >
+          <IconWrapper_Navbar
+            $variant={pathname === "/bookmarks/bookmarks" ? "active" : null}
+          >
+            <Icon_Bookmark />
+          </IconWrapper_Navbar>
+        </Styled_Link>
+      </NavSection>
+
+      {pathname === "/" && (
         <NavSection>
-          <Styled_Link $active={pathname === "/"} href="/">
-            <IconWrapper_Navbar $variant={pathname === "/" ? "active" : null}>
-              {pathname === "/" && <Icon_List />}
-              {pathname !== "/" && <Icon_Back />}
+          <Button aria-label="add new plant" onClick={onShowForm}>
+            <IconWrapper_Navbar $double>
+              <Icon_Add />
             </IconWrapper_Navbar>
-          </Styled_Link>
-
-          <Styled_PageLinkDummy
-            $active={pathname === "/plant-details/[id]"}
-            href="/"
-          >
-            <IconWrapper_Navbar
-              $variant={
-                pathname === "/plant-details/[id]" ? "active" : "greyed-out"
-              }
-              $noHover
-            >
-              <Icon_Details />
-            </IconWrapper_Navbar>
-          </Styled_PageLinkDummy>
-          <Styled_Link
-            $active={pathname === "/bookmarks.js"}
-            href="/bookmarks/bookmarks"
-          >
-            <IconWrapper_Navbar
-              $variant={pathname === "/bookmarks/bookmarks" ? "active" : null}
-            >
-              <Icon_Bookmark />
-            </IconWrapper_Navbar>
-          </Styled_Link>
+          </Button>
         </NavSection>
+      )}
 
-        {pathname === "/" && (
-          <NavSection>
-            <Button aria-label="add new plant" onClick={onShowForm}>
-              <IconWrapper_Navbar $double>
-                <Icon_Add />
-              </IconWrapper_Navbar>
-            </Button>
-          </NavSection>
-        )}
+      {pathname === "/plant-details/[id]" && (
+        <NavSection>
+          <Button>
+            <IconWrapper_Navbar>
+              <Icon_Edit aria-label="edit plant" onClick={onShowForm} />
+            </IconWrapper_Navbar>
+          </Button>
 
-        {pathname === "/plant-details/[id]" && (
-          <NavSection>
-            <Button>
-              <IconWrapper_Navbar>
-                <Icon_Edit aria-label="edit plant" onClick={onShowForm} />
-              </IconWrapper_Navbar>
-            </Button>
+          <DeleteConfirmationModal plantId={plantId}>
+            <IconWrapper_Navbar>
+              <Icon_Delete />
+            </IconWrapper_Navbar>
+          </DeleteConfirmationModal>
 
-            <DeleteConfirmationModal plantId={plantId}>
-              <IconWrapper_Navbar>
-                <Icon_Delete />
-              </IconWrapper_Navbar>
-            </DeleteConfirmationModal>
-
-            <BookMark
-              onToggleBookmarkPlant={handleToggleBookmarkPlant}
-              bookmarkedPlants={bookmarkedPlants}
-              plantId={plantId}
-            />
-          </NavSection>
-        )}
-      </Nav>
-    </>
+          <BookMark
+            onToggleBookmarkPlant={handleToggleBookmarkPlant}
+            bookmarkedPlants={bookmarkedPlants}
+            plantId={plantId}
+          />
+        </NavSection>
+      )}
+    </Nav>
   );
 }
 
@@ -122,10 +118,6 @@ const NavSection = styled.section`
   background-color: rgb(224, 224, 224);
   padding-left: 10px;
   padding-right: 10px;
-`;
-
-const NavbarSpacer = styled.div`
-  padding-bottom: ${navbarHeight};
 `;
 
 const Button = styled.button`

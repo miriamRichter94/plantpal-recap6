@@ -4,6 +4,7 @@ import Image from "next/image";
 import PlantModal from "../PlantForm/PlantModal";
 import PlantForm from "../PlantForm/PlantForm";
 import NavActionBar from "../NavActionBar/NavActionBar";
+import { ToolTip } from "../StyledComponents/StyledComponents";
 
 const numberWaterNeed = {
   Low: 1,
@@ -77,6 +78,8 @@ export default function PlantDetails({
             {plant.fertiliserSeason.map((item, index) => (
               <FertiliserSeasonIcon key={index}>
                 {fertiliserSeasonIcons[item]}
+
+                <ToolTip>{item}</ToolTip>
               </FertiliserSeasonIcon>
             ))}
           </FertilizerWrapper>
@@ -100,10 +103,17 @@ export default function PlantDetails({
 
 const PlantInfoContainer = styled.section`
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(5, auto);
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
   gap: 10px;
   color: var(--text-color);
+  padding: 0 10px;
+  max-width: 100%;
+
+  @media (min-width: 600px) {
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: repeat(5, auto);
+  }
 `;
 
 const BotanicalName = styled.p`
@@ -116,18 +126,27 @@ const BotanicalName = styled.p`
   }
 `;
 
-const StyledImage = styled(Image)`
-  grid-row: 2 / 5;
-  grid-column: 2/-1;
+const StyledImage = styled.img`
+  width: 100%;
+  height: auto;
+
+  @media (min-width: 600px) {
+    grid-row: 2 / 5;
+    grid-column: 2 / -1;
+    max-height: 55vh;
+    object-fit: contain;
+  }
 `;
 
 const PlantNeedsWrapper = styled.div`
-  padding-left: 10px;
+  min-width: 0;
 `;
 
 const PlantNeedsTitle = styled.p`
   font-size: 1.3rem;
   font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 20px;
 `;
 
 const FertilizerWrapper = styled.div`
@@ -168,20 +187,27 @@ const NeedsLightCircleInactive = styled.div`
 const FertiliserSeasonIcon = styled.div`
   height: 20px;
   width: 20px;
+  font-size: 1.5rem;
+
+  &:hover ${ToolTip} {
+    top: -60px;
+    opacity: 1;
+  }
 `;
 
 const PlantDescriptionContainer = styled.article`
   display: flex;
   flex-direction: column;
-  justify-content: left;
   grid-column: 1 / -1;
-  margin-left: 30px;
-  margin-right: 30px;
+  min-width: 0;
 `;
 
 const DescriptionTitle = styled.p`
+  font-size: 1.3rem;
   font-weight: bold;
-  margin-bottom: 20px;
 `;
 
-const PlantDescription = styled.p``;
+const PlantDescription = styled.p`
+  margin: 0;
+  font-size: 1.2rem;
+`;

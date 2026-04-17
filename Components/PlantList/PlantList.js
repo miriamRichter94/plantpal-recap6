@@ -3,6 +3,7 @@ import PlantListItem from "../PlantItemPreview/PlantItemPreview";
 import DeleteConfirmationModal from "../DeleteConfirmation/DeleteConfirmationModal";
 import BookMark from "../BookMark/BookMark";
 import Image from "next/image";
+import { ToolTip } from "../StyledComponents/StyledComponents";
 
 export default function PlantList({
   plants = [],
@@ -16,17 +17,17 @@ export default function PlantList({
       {plants.length !== 0 ? (
         plants.map((plant) => (
           <GridItem key={plant._id}>
-            <ActionDiv $isDelete>
-              <DeleteConfirmationModal plantId={plant._id}>
-                ❌
-              </DeleteConfirmationModal>
-            </ActionDiv>
             <ActionDiv $isBookmark>
               <BookMark
                 onToggleBookmarkPlant={handleToggleBookmarkPlant}
                 bookmarkedPlants={bookmarkedPlants}
                 plantId={plant._id}
               />
+              <ToolTip>
+                {!bookmarkedPlants.includes(plant._id)
+                  ? "Bookmark"
+                  : "Unbookmark"}
+              </ToolTip>
             </ActionDiv>
             <ActionDiv $isEdit>
               <StyledButton
@@ -42,13 +43,18 @@ export default function PlantList({
                   alt="Edit Pencil"
                 ></Image>
               </StyledButton>
+              <ToolTip>Edit</ToolTip>
+            </ActionDiv>
+            <ActionDiv $isDelete>
+              <DeleteConfirmationModal plantId={plant._id} />
+              <ToolTip>Delete</ToolTip>
             </ActionDiv>
 
             <PlantListItem plant={plant} />
           </GridItem>
         ))
       ) : (
-        <p> No Items Found</p>
+        <EmptyResult> No Items Found</EmptyResult>
       )}
     </PlantGrid>
   );
@@ -65,8 +71,12 @@ const PlantGrid = styled.ul`
   row-gap: 20px;
   column-gap: 32px;
 
+  @media (min-width: 600px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
   @media (min-width: 1400px) {
-    grid-template-columns: repeat(6, minmax(200px, 1fr));
+    grid-template-columns: repeat(5, minmax(200px, 1fr));
   }
 `;
 
@@ -88,18 +98,37 @@ const ActionDiv = styled.div`
     $isDelete &&
     css`
       right: 5px;
+
+      &:hover ${ToolTip} {
+        top: -55px;
+        right: 50px;
+        opacity: 1;
+      }
     `}
 
   ${({ $isEdit }) =>
     $isEdit &&
     css`
       right: 45px;
+
+      &:hover ${ToolTip} {
+        top: -60px;
+        right: 50px;
+        opacity: 1;
+      }
     `}
 
     ${({ $isBookmark }) =>
     $isBookmark &&
     css`
       right: 85px;
+
+      &:hover ${ToolTip} {
+        width: 100px;
+        top: -60px;
+        right: 50px;
+        opacity: 1;
+      }
     `}
 `;
 
@@ -112,9 +141,10 @@ const GridItem = styled.li`
   flex-direction: column;
   height: 320px; /* fixed total card height */
   overflow: hidden;
+  box-shadow: 5px 5px 3px var(--box-shadow);
 
   .dark-mode & {
-    box-shadow: 5px 5px 5px var(--text-color);
+    box-shadow: 5px 5px 3px var(--box-shadow);
   }
 `;
 

@@ -67,6 +67,7 @@ export default function App({ Component, pageProps }) {
         toastOptions={{
           style: {
             zIndex: 9999,
+            fontWeight: 600,
           },
         }}
       />
