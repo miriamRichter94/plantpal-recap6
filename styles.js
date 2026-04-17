@@ -16,6 +16,7 @@ export default createGlobalStyle`
     --tooltip-text-color: #fafaf7;
     --tooltip-background: #141c14;
     --box-shadow: #141c14;
+    --toggle-wrapper-background: rgba(0, 0, 0, 0.15);
   }
 
   :root.dark-mode{
@@ -27,6 +28,7 @@ export default createGlobalStyle`
     --tooltip-text-color: #fafaf7;
     --tooltip-background: #141c14;
     --box-shadow: #fafaf7;
+    --toggle-wrapper-background: rgba(255, 255, 255, 0.15);
   }
 
   body {

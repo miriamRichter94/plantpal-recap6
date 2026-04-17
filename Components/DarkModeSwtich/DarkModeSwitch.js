@@ -22,16 +22,21 @@ const Slider = styled.span`
   position: absolute;
   inset: 0;
   background-color: #ccc;
+  border: 2px solid rgba(0, 0, 0, 0.7);
   border-radius: 30px;
   transition: 0.3s;
+
+  .dark-mode & {
+    border: 2px solid rgba(255, 255, 255, 0.4);
+  }
 
   &::before {
     content: "";
     position: absolute;
     width: 22px;
     height: 22px;
-    left: 4px;
-    top: 4px;
+    left: 2px;
+    top: 2px;
     background-color: white;
     border-radius: 50%;
     transition: 0.3s;
@@ -41,7 +46,7 @@ const Slider = styled.span`
     content: "🌙";
     position: absolute;
     right: 4px;
-    top: 4px;
+    top: 2px;
     font-size: 14px;
     line-height: 22px;
     transition: 0.3s;

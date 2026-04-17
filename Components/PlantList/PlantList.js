@@ -71,6 +71,10 @@ const PlantGrid = styled.ul`
   row-gap: 20px;
   column-gap: 32px;
 
+  @media (min-width: 600px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
   @media (min-width: 1400px) {
     grid-template-columns: repeat(5, minmax(200px, 1fr));
   }

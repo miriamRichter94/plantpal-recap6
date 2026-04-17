@@ -3,10 +3,13 @@ import styled from "styled-components";
 export const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 1400px;
   width: 100%;
   overflow: hidden;
   margin-bottom: 80px;
+
+  @media (min-width: 1400px) {
+    max-width: 1400px;
+  }
 `;
 
 export const EmptyResult = styled.p`
